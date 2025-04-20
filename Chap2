@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfacial Rheology - Page 2: Shear Instruments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-padding-top: 6rem; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        mjx-container { text-align: left !important; margin: 0.5rem 0; }
+        figure svg { max-width: 100%; height: auto; border: 1px solid #d9f99d; border-radius: 0.375rem; margin: 0.5rem auto; display: block; background-color: #f7fee7; }
+        figcaption { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; text-align: center; }
+        .styled-button-link { background-color: #a3e635; color: #3f6212; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; display: inline-block; text-align: center; border: none; }
+        .styled-button-link:hover { background-color: #84cc16; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+        th, td { border: 1px solid #bef264; padding: 0.6rem; text-align: left; vertical-align: top; }
+        th { background-color: #ecfccb; font-weight: 600; color: #4d7c0f; position: sticky; top: 6rem; z-index: 10; } /* Adjusted top for header height */
+        tbody tr:nth-child(odd) { background-color: #f7fee7; }
+        tbody tr:hover { background-color: #ecfccb; }
+        .interactive-block { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 1.5rem; border: 1px solid #d9f99d; border-radius: 0.5rem; background-color: #ffffff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; font-size: 0.875rem; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: #84cc16; }
+        select { width: 100%; padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 0.375rem; background-color: white; font-size: 0.9rem; transition: border-color 0.2s ease; cursor: pointer;}
+        select:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: #84cc16; box-shadow: 0 0 0 2px #ecfccb; }
+        .output-box { margin-top: 0.5rem; padding: 0.5rem 0.75rem; background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 0.375rem; font-size: 0.875rem; color: #065f46; text-align: center; font-weight: 500; min-height: 36px; }
+        .slider-label-container { display: flex; justify-content: space-between; font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+        .plot-container { width: 100%; max-width: 450px; margin: 1rem auto; min-height: 250px; position: relative; }
+        .plot-svg .axis path, .plot-svg .axis line { fill: none; stroke: #6b7280; shape-rendering: crispEdges; }
+        .plot-svg .axis text { font-size: 10px; fill: #4b5563; }
+        .plot-svg .line { fill: none; stroke-width: 2px; }
+        .plot-svg .axis-label { font-size: 11px; fill: #374151; text-anchor: middle; }
+        .plot-svg .legend-text { font-size: 10px; }
+        .plot-svg .g-prime-line { stroke: #059669; } /* emerald-600 */
+        .plot-svg .g-double-prime-line { stroke: #ea580c; } /* orange-600 */
+        .plot-svg .g-prime-time-line { stroke: #059669; } /* emerald-600 */
+
+        @media (max-width: 768px) {
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 800px; }
+            th, td { white-space: normal; }
+        }
+        .svg-text { font-family: sans-serif; font-size: 8px; fill: #374151; }
+        .svg-label { font-family: sans-serif; font-size: 9px; fill: #1f2937; font-weight: 500;}
+        .svg-line { stroke: #334155; stroke-width: 1; }
+        .svg-interface { stroke: #4d7c0f; stroke-width: 1.5; }
+        .svg-liquid { fill: #a3e635; opacity: 0.3; }
+        .svg-liquid2 { fill: #bef264; opacity: 0.5; }
+        .svg-geom-fill { fill: #cbd5e1; }
+        .svg-geom-stroke { stroke: #4d7c0f; stroke-width: 1; }
+        .svg-base-fill { fill: #e2e8f0; }
+        .svg-base-stroke { stroke: #334155; stroke-width: 1; }
+        .svg-highlight { stroke: #dc2626; stroke-width: 1; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <header class="bg-gradient-to-r from-lime-600 to-green-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl md:text-3xl font-bold">Interfacial Rheology</h1>
+            <p class="text-lg font-semibold mt-1">Page 2: Instruments for Shear Rheology</p>
+            <p class="text-xs mt-2 opacity-90">Based on Marquez & Salager, Colloids Interfaces 2025, 9, 14. <a href="https://doi.org/10.3390/colloids9010014" target="_blank" rel="noopener" class="underline hover:text-lime-200">[DOI]</a></p>
+            <nav class="mt-3 text-sm md:text-base">
+                <a href="https://marquezrn03.github.io/A-Short-Course-On-Interfacial-Rheology/" class="hover:text-lime-200 mr-4">Fundamentals</a>
+                <a href="#page2" class="font-semibold border-b-2 border-lime-300 pb-1 mr-4">Shear Instruments</a>
+                <a href="Chap3.html" class="hover:text-lime-200 mr-4">Dilational Instruments</a>
+                <a href="Chap4.html" class="hover:text-lime-200">Applications</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="page2" class="container mx-auto px-6 py-8">
+
+        <section id="shear-intro" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">1. Shear Interfacial Rheology Methods: Introduction</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">Shear interfacial rheology methods measure the response of an interface to tangential stress while maintaining a constant interfacial area. These techniques primarily probe the complex shear modulus, \(G^* = G' + iG''\), providing insights into the interface's elastic (\(G'\)) and viscous (\(G''\)) properties under shear deformation. This is distinct from dilational rheology, which involves changes in area.</p>
+            <p class="text-gray-700 leading-relaxed mb-4">Common instruments rely on creating a controlled shear flow at the interface using geometries like rotating disks, rings (bicone, double-wall ring), channels, or magnetically driven probes. The measured torque or force required to maintain the flow or oscillation allows calculation of \(G^*\).</p>
+             </section>
+
+        <section id="deep-channel" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">2. Deep Channel Viscometers</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">This technique measures interfacial shear viscosity by analyzing the velocity profile of a liquid flowing in a deep, narrow channel, often annular, with the interface exposed at the top. The presence of an interfacial layer possessing shear viscosity alters the flow profile near the interface compared to that of a clean interface. Typically, the channel base rotates (\(\omega_0\)), inducing flow, and tracer particles placed on the interface are monitored (e.g., optically) to determine the surface velocity distribution, from which the interfacial shear viscosity can be inferred [cite: 73, 185-191].</p>
+             <figure class="my-4">
+                 <svg width="350" height="250" viewBox="0 0 200 150">
+                      <title>Deep Channel Viscometer Schematic</title>
+                      <use href="#ch-base"/> <use href="#ch-walls"/>
+                      <use href="#ch-liquid"/> <use href="#ch-interface"/>
+                      <use href="#ch-inner-cyl"/> <use href="#ch-outer-cyl"/> <use href="#ch-shaft"/>
+                      <text x="100" y="110" class="svg-text" text-anchor="middle">Liquid</text>
+                      <text x="100" y="75" class="svg-text" text-anchor="middle">Interface</text>
+                      <text x="80" y="45" class="svg-text" text-anchor="middle">Inner Wall</text>
+                      <text x="120" y="45" class="svg-text" text-anchor="middle">Outer Wall</text>
+                      <text x="10" y="145" class="svg-text" text-anchor="middle">\(\omega_0\)</text>
+                      <path d="M 15 130 A 10 5 0 1 1 25 130" fill="none" stroke="black" stroke-width="0.5"/>
+                      <polygon points="15,130 12,127 12,133" fill="black"/>
+                      <text x="100" y="90" class="svg-text" fill="#dc2626" text-anchor="middle">Tracer</text>
+                       <defs>
+                          <path id="ch-base" d="M 0 130 L 40 130 L 40 120 L 160 120 L 160 130 L 200 130" class="svg-base-fill svg-base-stroke"/>
+                          <path id="ch-walls" d="M 40 120 L 40 50 M 160 120 L 160 50" class="svg-base-fill svg-base-stroke"/>
+                          <rect id="ch-liquid" x="40" y="80" width="120" height="40" class="svg-liquid"/>
+                          <line id="ch-interface" x1="40" y1="80" x2="160" y2="80" class="svg-interface"/>
+                          <path id="ch-inner-cyl" d="M 80 120 L 80 50" class="svg-base-stroke" stroke-width="2"/>
+                          <path id="ch-outer-cyl" d="M 120 120 L 120 50" class="svg-base-stroke" stroke-width="2"/>
+                          <path id="ch-shaft" d="M 0 130 L 0 150 L 20 150 L 20 130" fill="#6b7280" class="svg-base-stroke"/>
+                          <circle cx="100" cy="80" r="1.5" fill="#dc2626"/>
+                      </defs>
+                 </svg>
+                 <figcaption>Fig 1: Schematic of a Deep Channel Viscometer (Concept based on Fig 4, Marquez & Salager 2025).</figcaption>
+            </figure>
+            <h4 class="font-semibold mt-4 mb-2 text-gray-800">Advantages:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                <li>Non-invasive measurement principle.</li>
+                <li>Suitable for determining steady shear viscosity.</li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-2 text-gray-800">Limitations:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                <li>Requires tracer particles, which can be problematic to place, keep at the interface, and track accurately, especially in opaque or complex systems (e.g., crude oil) [cite: 192-194].</li>
+                <li>Needs precise control over flow conditions and accurate measurement of velocity profiles.</li>
+                <li>Data analysis can be intricate due to potential coupling between bulk and interfacial flows.</li>
+                <li>Results can be sensitive to channel geometry and boundary conditions.</li>
+            </ul>
+        </section>
+
+        <section id="disk-rheometer" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">3. Interfacial Disk Rheometers (Bicone)</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">These instruments employ a rotating disk or, more commonly, a biconical disk (bicone) geometry positioned precisely at the fluid interface (liquid-liquid or gas-liquid). The bicone is attached to the drive shaft of a rotational rheometer. It rotates or oscillates, imparting a defined shear strain onto the interfacial layer. The rheometer measures the torque required to maintain this motion, allowing for the calculation of the complex shear modulus (\(G^*\)) and its components (\(G', G''\)) through standard rheological analysis software [cite: 76, 103, 104, 205-223].</p>
+             <figure class="my-4">
+                  <svg width="400" height="300" viewBox="-10 -10 220 170">
+                       <title>Bicone Rheometer Schematic</title>
+                        <use href="#bc-cup"/> <use href="#bc-peltier"/>
+                       <use href="#bc-liquid1"/> <use href="#bc-liquid2"/> <use href="#bc-interface"/>
+                       <use href="#bc-bicone-geom"/> <use href="#bc-shaft-bicone"/> <use href="#bc-motor-transducer"/>
+                       <text x="100" y="10" class="svg-label" text-anchor="middle">Motor/Transducer</text>
+                       <text x="150" y="90" class="svg-text" text-anchor="middle">Liquid 2</text>
+                       <text x="150" y="130" class="svg-text" text-anchor="middle">Liquid 1</text>
+                       <text x="100" y="165" class="svg-label" text-anchor="middle">Base/Temp Control</text>
+                       <text x="100" y="118" class="svg-label" text-anchor="middle">Bicone</text>
+                       <text x="150" y="115" class="svg-label" text-anchor="middle">Interface</text>
+                       <defs>
+                           <path id="bc-cup" d="M 0 150 L 0 50 A 10 10 0 0 1 10 40 L 190 40 A 10 10 0 0 1 200 50 L 200 150 Z" class="svg-base-fill svg-base-stroke"/>
+                           <rect id="bc-peltier" x="0" y="150" width="200" height="10" class="svg-geom-fill svg-base-stroke"/>
+                           <path id="bc-liquid1" d="M 10 110 L 190 110 L 190 150 L 10 150 Z" class="svg-liquid"/>
+                           <path id="bc-liquid2" d="M 10 70 L 190 70 L 190 110 L 10 110 Z" class="svg-liquid2"/>
+                           <line id="bc-interface" x1="10" y1="110" x2="190" y2="110" class="svg-interface"/>
+                           <polygon id="bc-bicone-geom" points="100,90 160,110 40,110 100,90 40,110 100,130 160,110 100,130" class="svg-geom-fill svg-geom-stroke"/>
+                           <path id="bc-shaft-bicone" d="M 100 90 L 100 20" class="svg-geom-stroke"/>
+                           <rect id="bc-motor-transducer" x="70" y="0" width="60" height="20" class="svg-geom-fill svg-base-stroke"/>
+                       </defs>
+                  </svg>
+                  <figcaption>Fig 2: Schematic of a Bicone Interfacial Rheometer (Corrected, concept based on Fig 5, Marquez & Salager 2025).</figcaption>
+            </figure>
+             <h4 class="font-semibold mt-4 mb-2 text-gray-800">Advantages:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>Measures interfacial shear properties directly, minimizing intentional dilational effects.</li>
+                 <li>Well-suited for characterizing viscoelastic interfaces, including those behaving like solids or gels.</li>
+                 <li>Allows both steady shear and oscillatory measurements across a broad frequency range (instrument dependent).</li>
+                 <li>Geometries can often be fitted to standard commercial rotational rheometers.</li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-2 text-gray-800">Limitations:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>Requires highly precise vertical positioning of the bicone exactly at the interface; misalignment leads to significant errors from bulk fluid contributions.</li>
+                 <li>Potential for the measured response to include contributions from the bulk phases if the geometry disturbs them or if the flow field penetrates deeply.</li>
+                 <li>Achieving a clean interface and avoiding contact line pinning at the edge of the bicone can be challenging.</li>
+                 <li>May be less sensitive than specialized methods for interfaces with extremely low viscosity.</li>
+            </ul>
+        </section>
+
+         <section id="ring-viscometer" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">4. Interfacial Ring Viscometers</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">These methods use a thin ring placed horizontally at the interface. Shear is applied by rotating or oscillating the ring, and the required force or torque is measured.</p>
+            <p class="text-gray-700 leading-relaxed mb-4">While simple oscillating rings exist, a significant improvement is the <strong class="font-semibold text-gray-800">Double-Wall Ring (DWR)</strong> geometry [cite: 77, 106-109]. The DWR features concentric walls that sit precisely at the interface, shearing the interfacial layer confined between them. This design minimizes disturbance to the bulk phases and reduces inertial effects, offering high sensitivity.</p>
+            <figure class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                <div>
+                    <svg width="250" height="200" viewBox="0 0 150 120">
+                        <title>Single Ring Viscometer Schematic</title>
+                        <use href="#sr-cup"/> <use href="#sr-liquid"/> <use href="#sr-interface"/>
+                        <use href="#sr-shaft"/> <use href="#sr-ring"/> <use href="#sr-highlight"/>
+                        <text x="75" y="95" class="svg-text" text-anchor="middle">Du Noüy Ring</text>
+                        <text x="75" y="115" class="svg-text" text-anchor="middle">Liquid</text>
+                        <path d="M 85 20 A 20 10 0 1 1 65 20" fill="none" stroke="black" stroke-width="0.5"/>
+                         <polygon points="85,20 82,17 82,23" fill="black"/>
+                         <polygon points="65,20 68,17 68,23" fill="black"/>
+                         <defs>
+                             <path id="sr-cup" d="M 10 110 C 10 70, 140 70, 140 110" fill="none" class="svg-base-stroke"/>
+                             <path id="sr-liquid" d="M 10 100 L 140 100 L 140 110 C 140 70 10 70 10 110 Z" class="svg-liquid"/>
+                             <line id="sr-interface" x1="10" y1="100" x2="140" y2="100" class="svg-interface"/>
+                             <line id="sr-shaft" x1="75" y1="20" x2="75" y2="60" class="svg-line"/>
+                             <line x1="45" y1="60" x2="105" y2="60" class="svg-line"/>
+                             <ellipse id="sr-ring" cx="75" cy="80" rx="40" ry="10" fill="none" class="svg-geom-stroke" stroke-width="1.5"/>
+                             <ellipse id="sr-highlight" cx="75" cy="80" rx="40" ry="10" class="svg-highlight" stroke-dasharray="2 2"/>
+                         </defs>
+                    </svg>
+                    <figcaption>Fig 3: Single Ring Concept (based on Fig 6, Marquez & Salager 2025).</figcaption>
+                </div>
+                <div>
+                     <svg width="250" height="200" viewBox="0 0 150 120">
+                          <title>Double Wall Ring (DWR) Schematic</title>
+                          <use href="#dwr-base"/> <use href="#dwr-gap"/> <use href="#dwr-walls"/>
+                          <use href="#dwr-liquid"/> <use href="#dwr-interface"/>
+                          <use href="#dwr-ring"/> <use href="#dwr-shaft"/>
+                           <text x="75" y="15" class="svg-label" text-anchor="middle">To Rheometer</text>
+                           <text x="75" y="75" class="svg-label" text-anchor="middle">Interface Shear</text>
+                           <text x="75" y="100" class="svg-text" text-anchor="middle">Bulk Liquid</text>
+                           <path d="M 55 55 l -5 0 M 95 55 l 5 0" class="svg-highlight"/>
+                           <text x="42" y="53" class="svg-text" fill="#dc2626">Inner Wall</text>
+                           <text x="108" y="53" class="svg-text" fill="#dc2626">Outer Wall</text>
+                           <defs>
+                               <rect id="dwr-base" x="10" y="80" width="130" height="30" class="svg-base-fill"/>
+                               <rect id="dwr-gap" x="40" y="80" width="70" height="30" fill="white"/>
+                               <path id="dwr-walls" d="M 10 80 L 10 50 L 40 50 L 40 80 M 110 80 L 110 50 L 140 50 L 140 80" class="svg-base-fill svg-base-stroke"/>
+                               <rect id="dwr-liquid" x="40" y="60" width="70" height="20" class="svg-liquid"/>
+                               <line id="dwr-interface" x1="40" y1="60" x2="110" y2="60" class="svg-interface"/>
+                               <rect id="dwr-ring-i" x="50" y="50" width="10" height="10" class="svg-geom-fill svg-geom-stroke"/>
+                               <rect id="dwr-ring-o" x="90" y="50" width="10" height="10" class="svg-geom-fill svg-geom-stroke"/>
+                               <g id="dwr-ring"> <use href="#dwr-ring-i"/> <use href="#dwr-ring-o"/> </g>
+                               <g id="dwr-shaft">
+                                   <line x1="55" y1="50" x2="55" y2="20" class="svg-geom-stroke"/>
+                                   <line x1="95" y1="50" x2="95" y2="20" class="svg-geom-stroke"/>
+                                   <line x1="55" y1="20" x2="95" y2="20" class="svg-geom-stroke"/>
+                               </g>
+                           </defs>
+                     </svg>
+                     <figcaption>Fig 4: Double-Wall Ring (DWR) Concept (based on Fig 7, Marquez & Salager 2025).</figcaption>
+                 </div>
+            </figure>
+             <h4 class="font-semibold mt-4 mb-2 text-gray-800">Advantages:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>DWR geometry provides high sensitivity and minimizes bulk phase contributions compared to single rings or bicones.</li>
+                 <li>Applicable to both gas-liquid and liquid-liquid interfaces.</li>
+                 <li>DWR can often be integrated with commercial rotational rheometers.</li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-2 text-gray-800">Limitations:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>Precise alignment and positioning of the ring at the interface are critical for accurate measurements.</li>
+                 <li>Potential for residual bulk contributions if alignment or geometry is imperfect.</li>
+                 <li>Requires careful cleaning protocols.</li>
+            </ul>
+        </section>
+
+         <section id="gprime-time-app" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+             <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">Conceptual G' Evolution Over Time</h2>
+             <div class="interactive-block bg-lime-50">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Soluble vs. Insoluble/Network-Forming Films</h4>
+                   <p class="text-xs text-center text-gray-500 mb-4">Select an adsorbing species type to see a conceptual representation of how the elastic shear modulus (\(G'\)) might evolve over time as the interfacial film forms and potentially ages.</p>
+                   <div class="mb-4 px-4">
+                       <label for="film-type-select" class="text-sm text-center block mb-1">Select Film Type:</label>
+                       <select id="film-type-select">
+                           <option value="soluble" selected>Soluble Surfactant (e.g., SDS)</option>
+                           <option value="insoluble">Insoluble/Network Forming (e.g., Protein, Asphaltene)</option>
+                       </select>
+                   </div>
+                   <div id="g-prime-time-plot-container" class="plot-container">
+                       <svg id="g-prime-time-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="400" height="250"></svg>
+                   </div>
+                   <p class="text-xs text-center text-gray-500 mt-2">Note: Shows idealized kinetic behavior. Real systems depend on concentration, transport, temperature, specific molecular interactions, etc.</p>
+              </div>
+         </section>
+
+        <section id="isr-rheometer" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">5. Magnetic Rod Interfacial Stress Rheometer (ISR)</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">Developed by Fuller and colleagues, the ISR uses a small magnetized rod floating at the fluid interface. A controlled magnetic field gradient, often generated by Helmholtz coils, applies a known force or torque to the rod, inducing shear deformation in the interfacial layer. The rod's displacement or rotation is tracked optically (e.g., using a microscope and photodiode array) to determine the time-dependent strain in response to the applied stress. This allows calculation of \(G^*\).</p>
+             <figure class="my-4">
+                  <svg width="450" height="250" viewBox="0 0 250 150">
+                      <title>Magnetic Rod ISR Schematic</title>
+                      <use href="#isr-coil" transform="translate(40, 0)"/>
+                      <use href="#isr-coil" transform="translate(210, 0)"/>
+                      <use href="#isr-trough"/>
+                      <text x="125" y="45" class="svg-label" text-anchor="middle">Sample Trough</text>
+                      <use href="#isr-slide1"/>
+                      <use href="#isr-slide2"/>
+                      <use href="#isr-rod-elem"/>
+                      <text x="125" y="70" class="svg-label" text-anchor="middle">Magnetic Rod</text>
+                      <text x="40" y="20" class="svg-label" text-anchor="middle">Helmholtz Coils</text>
+                      <text x="210" y="20" class="svg-label" text-anchor="middle">Helmholtz Coils</text>
+                      <use href="#isr-detector"/>
+                      <text x="125" y="130" class="svg-label" text-anchor="middle">Microscope/Detector</text>
+                      <path d="M 125 110 L 125 90" class="svg-line" stroke-width="0.5"/>
+                      <path d="M 125 77 L 125 85 M 115 75 L 135 75" class="svg-highlight" stroke-width="0.5"/>
+                      <text x="140" y="90" class="svg-text" fill="#dc2626">Shear</text>
+                       <defs>
+                           <ellipse id="isr-coil" cx="0" cy="75" rx="30" ry="70" fill="none" stroke="#0c4a6e" stroke-width="2"/>
+                           <rect id="isr-slide-g" width="100" height="10" class="svg-base-fill" stroke="#7dd3fc"/>
+                           <rect id="isr-rod-elem" x="100" y="73" width="50" height="4" fill="#4d7c0f"/>
+                           <rect id="isr-trough" x="50" y="50" width="150" height="50" class="svg-liquid" opacity="0.2" stroke="#334155"/>
+                           <line x1="50" y1="75" x2="200" y2="75" class="svg-interface" />
+                           <use id="isr-slide1" href="#isr-slide-g" x="75" y="65"/>
+                           <use id="isr-slide2" href="#isr-slide-g" x="75" y="80"/>
+                           <rect id="isr-detector" x="100" y="110" width="50" height="30" class="svg-geom-fill" stroke="#334155" stroke-width="0.5"/>
+                       </defs>
+                  </svg>
+                  <figcaption>Fig 5: Schematic of a Magnetic Rod ISR Setup (Concept based on Fig 8, Marquez & Salager 2025).</figcaption>
+            </figure>
+             <h4 class="font-semibold mt-4 mb-2 text-gray-800">Advantages:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>Allows precise application and measurement of interfacial stress.</li>
+                 <li>The probe (rod) is minimally invasive as it floats freely.</li>
+                 <li>Well-suited for studying rheological transitions in Langmuir monolayers, polymer network formation, and protein adsorption kinetics at interfaces [cite: 95, 246-247].</li>
+            </ul>
+            <h4 class="font-semibold mt-4 mb-2 text-gray-800">Limitations:</h4>
+            <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-1 mb-4 pl-4 text-sm">
+                 <li>Typically operates over a limited frequency range (e.g., ~0.01 - 1.6 Hz).</li>
+                 <li>Requires careful calibration of the magnetic field and precise optical tracking.</li>
+                 <li>Analysis of the flow field around the rod can be complex.</li>
+            </ul>
+        </section>
+
+        <section id="comparison-table" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">6. Summary Comparison of Shear Methods</h2>
+             <div class="table-container">
+                 <table>
+                     <thead>
+                         <tr>
+                             <th>Method</th>
+                             <th>Geometry / Principle</th>
+                             <th>Approx. Freq. Range (Hz)</th>
+                             <th>Approx. \(G'\) Range (mN/m)</th>
+                             <th>Key Advantages</th>
+                             <th>Key Limitations</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td>Deep Channel</td>
+                             <td>Narrow Channel, Rotating Base, Tracers</td>
+                             <td>~0 - 1</td>
+                             <td>Viscosity (\( \eta_s \)) measure</td>
+                             <td>Non-invasive principle, Steady shear</td>
+                             <td>Requires tracers, Opaque systems hard, Complex flow/analysis</td>
+                         </tr>
+                         <tr>
+                             <td>Bicone</td>
+                             <td>Rotating Biconical Disk @ Interface</td>
+                             <td>~0.001 - 10</td>
+                             <td>~1 - 100+</td>
+                             <td>Direct shear \(G^*\), Adaptable</td>
+                             <td>Precise alignment critical, Potential bulk contribution</td>
+                         </tr>
+                         <tr>
+                             <td>Ring (Single)</td>
+                             <td>Oscillating/Rotating Ring @ Interface</td>
+                             <td>~0.01 - 10</td>
+                             <td>Up to ~100</td>
+                             <td>Simpler setup concept</td>
+                             <td>Bulk contributions likely, Alignment sensitive, Edge effects</td>
+                         </tr>
+                          <tr>
+                             <td>Double-Wall Ring (DWR)</td>
+                             <td>Concentric Walls Ring @ Interface</td>
+                              <td>~0.001 - 10+</td>
+                             <td>High sensitivity (low to 100+)</td>
+                             <td>High sensitivity, Minimized bulk effects, Adaptable</td>
+                             <td>Alignment critical, Geometry precision</td>
+                         </tr>
+                         <tr>
+                              <td>Magnetic Rod ISR</td>
+                             <td>Magnetized Rod @ Interface, Magnetic Field</td>
+                             <td>~0.01 - 1.6</td>
+                             <td>Up to ~100+</td>
+                              <td>Precise stress control, Minimally invasive</td>
+                             <td>Limited frequency, Complex setup/calibration</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+             <p class="text-xs text-gray-500 mt-2">Note: Ranges are indicative and depend on specific instrument and system studied. Based on Table 1 and Section 3.1 of Marquez & Salager (2025) [cite: 179-181].</p>
+        </section>
+
+         <section id="shear-data-app-final" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+             <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">7. Conceptual Shear Data Interpretation</h2>
+             <div class="interactive-block bg-lime-50">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Typical Oscillatory Shear Responses</h4>
+                   <p class="text-xs text-center text-gray-500 mb-4">Select a conceptual material type to see how its storage (\(G'\), elastic) and loss (\(G''\), viscous) moduli might typically behave as a function of frequency (\(\omega\)) in a shear rheology experiment.</p>
+                   <div class="mb-4 px-4">
+                       <label for="material-type-select" class="text-sm text-center block mb-1">Select Material Type:</label>
+                       <select id="material-type-select">
+                           <option value="viscous" selected>Predominantly Viscous Liquid</option>
+                           <option value="elastic">Predominantly Elastic Solid</option>
+                           <option value="gel">Viscoelastic Gel (Example)</option>
+                       </select>
+                   </div>
+                   <div id="shear-data-plot-container" class="plot-container">
+                       <svg id="shear-data-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="400" height="250"></svg>
+                   </div>
+                   <p class="text-xs text-center text-gray-500 mt-2">Note: These are idealized representations. Real data depends heavily on the specific system.</p>
+              </div>
+         </section>
+
+
+        <section class="mt-12 text-center grid grid-cols-2 gap-4">
+            <a href="https://marquezrn03.github.io/A-Short-Course-On-Interfacial-Rheology/" class="styled-button-link">← Previous: Fundamentals</a>
+            <a href="Chap3.html" class="styled-button-link">Next: Dilational Instruments →</a>
+        </section>
+
+    </main>
+
+     <footer class="mt-16 pt-8 pb-8 border-t border-gray-300 text-center">
+         <p class="text-xs text-gray-500">Source: Marquez, R.; Salager, J.-L. Measurement Techniques for Interfacial Rheology... Colloids Interfaces 2025, 9, 14.</p>
+         <p class="text-xs text-gray-500 mt-1">PhD Course Module - University of Girona</p>
+     </footer>
+
+    <script>
+         const setupSlider = (sliderId, valueId, options = {}) => {
+            const slider = document.getElementById(sliderId);
+            const valueDisplay = document.getElementById(valueId);
+            if (!slider || !valueDisplay) return;
+            const { fixedDigits = 1, logScale = false, callback = null, unit = '', displayFormat = null, prefix = '' } = options;
+            const minAttr = parseFloat(slider.min);
+            const maxAttr = parseFloat(slider.max);
+            const safeMin = isNaN(minAttr) ? (logScale ? 1e-9 : 0) : (logScale ? Math.max(1e-9, minAttr) : minAttr);
+            let safeMax = isNaN(maxAttr) ? safeMin * (logScale ? 1000 : 100) : (logScale ? Math.max(safeMin * 1.1, maxAttr) : Math.max(safeMin + 1e-9, maxAttr));
+            if (safeMax <= safeMin) safeMax = safeMin * (logScale ? 10 : 2);
+            if (safeMax <= safeMin) safeMax = safeMin + 1;
+
+            const calculateLogExponent = (rawValue) => {
+                 const minLog = Math.log10(safeMin);
+                 const maxLog = Math.log10(safeMax);
+                 const range = maxLog - minLog;
+                 const sliderMinInternal = parseFloat(slider.min);
+                 const sliderMaxInternal = parseFloat(slider.max);
+                 const sliderRangeInternal = sliderMaxInternal - sliderMinInternal;
+                 if (!isFinite(minLog) || !isFinite(maxLog) || !isFinite(range) || range <= 0 || sliderRangeInternal <= 0) { return Math.log10(safeMin); }
+                 else {
+                     const normalizedSliderValue = Math.max(0, Math.min(1, (rawValue - sliderMinInternal) / sliderRangeInternal));
+                     return minLog + normalizedSliderValue * range;
+                 }
+            };
+
+            const calculateActualValue = () => {
+                const rawValue = parseFloat(slider.value);
+                let actual;
+                if (logScale) {
+                    actual = Math.pow(10, calculateLogExponent(rawValue));
+                } else { actual = rawValue; }
+                slider.actualValue = (!isFinite(actual)) ? safeMin : Math.max(safeMin, Math.min(safeMax, actual));
+            };
+
+            const formatDisplayValue = (value, exponent = null) => {
+                 if (displayFormat === 'percentage') return `${Math.round(value)}%`;
+                 if (prefix === '10^' && exponent !== null && isFinite(exponent)) {
+                     return `10<sup>${exponent.toFixed(fixedDigits)}</sup>`;
+                 }
+                 if (typeof value !== 'number' || !isFinite(value)) return "NaN";
+                 try {
+                     if ((logScale && value < 0.01 && value > 1e-9) || (value !== 0 && Math.abs(value) < 0.001)) { return value.toExponential(fixedDigits); }
+                     if (Math.abs(value) < 1000000 || value === 0) { return value.toFixed(Math.max(0, fixedDigits)); }
+                     return value.toExponential(fixedDigits);
+                 } catch { return "FmtErr"; }
+            };
+
+            const updateDisplayAndTriggerCallback = () => {
+                if (!slider || !valueDisplay) return;
+                try {
+                    calculateActualValue();
+                    let displayValText;
+                    if(logScale && prefix === '10^'){
+                        const currentExponent = calculateLogExponent(parseFloat(slider.value));
+                        displayValText = formatDisplayValue(slider.actualValue, currentExponent);
+                    } else {
+                        displayValText = formatDisplayValue(slider.actualValue);
+                    }
+                    if(unit) displayValText += unit;
+                    valueDisplay.innerHTML = displayValText;
+                    if (typeof callback === 'function') callback();
+                } catch (e) { console.error(`Error updating slider ${sliderId}:`, e); valueDisplay.textContent = "Error"; }
+            };
+
+            let initialNumericValue = slider.getAttribute('value') ? parseFloat(slider.getAttribute('value')) : safeMin;
+            if (isNaN(initialNumericValue)) initialNumericValue = safeMin;
+
+            if (logScale) {
+                initialNumericValue = Math.max(safeMin, Math.min(safeMax, initialNumericValue));
+                const minLog = Math.log10(safeMin); const maxLog = Math.log10(safeMax); const range = maxLog - minLog;
+                let initialSliderPos = 0;
+                if (isFinite(minLog) && isFinite(maxLog) && isFinite(range) && range > 0 && initialNumericValue > 0) {
+                     initialSliderPos = Math.round(((Math.log10(initialNumericValue) - minLog) / range) * 100);
+                }
+                slider.min = "0"; slider.max = "100"; slider.step = "1"; slider.value = initialSliderPos.toString();
+            } else {
+                initialNumericValue = Math.max(safeMin, Math.min(safeMax, initialNumericValue));
+                slider.min = safeMin.toString(); slider.max = safeMax.toString();
+                const range = safeMax - safeMin; let step = (range > 0) ? (range / 100) : 1e-6;
+                if (step > 0) { const magnitude = Math.pow(10, Math.floor(Math.log10(step))); step = Math.max(1e-6, Math.round(step / magnitude) * magnitude); } else { step = 1e-6; }
+                slider.step = step > 0 ? step.toExponential(2) : 'any'; slider.value = initialNumericValue.toString();
+            }
+            slider.oninput = updateDisplayAndTriggerCallback;
+            calculateActualValue();
+            let initialDisplayValText;
+             if(logScale && prefix === '10^'){
+                 const initialExponent = calculateLogExponent(parseFloat(slider.value));
+                 initialDisplayValText = formatDisplayValue(slider.actualValue, initialExponent);
+             } else {
+                 initialDisplayValText = formatDisplayValue(slider.actualValue);
+             }
+             if(unit) initialDisplayValText += unit;
+            valueDisplay.innerHTML = initialDisplayValText;
+        };
+
+         const setupPlotArea = (targetId, margin, isDirectSvg = false) => {
+            let svg, g, containerWidth, containerHeight;
+            if (isDirectSvg) {
+                svg = d3.select(`#${targetId}`); if (svg.empty()) throw new Error(`Target SVG #${targetId} not found.`);
+                containerWidth = parseFloat(svg.attr("width")) || 400; containerHeight = parseFloat(svg.attr("height")) || 200;
+                svg.selectAll("g").remove(); g = svg.append("g").attr("id", `${targetId}-plot-group`).attr("class", "d3-plot");
+            } else {
+                const plotDiv = document.getElementById(targetId); if (!plotDiv) throw new Error(`Plot container #${targetId} not found.`);
+                containerWidth = plotDiv.clientWidth; containerHeight = plotDiv.clientHeight; if (!containerWidth || !containerHeight || containerWidth <= 0 || containerHeight <= 0) throw new Error(`Plot container #${targetId} has invalid dimensions.`);
+                svg = d3.select(plotDiv).select("svg"); if (svg.empty()) svg = d3.select(plotDiv).append("svg");
+                svg.attr("width", "100%").attr("height", "100%").attr("viewBox", `0 0 ${containerWidth} ${containerHeight}`).attr("preserveAspectRatio", "xMidYMid meet");
+                svg.selectAll("*").remove(); g = svg.append("g").attr("class", "d3-plot");
+            }
+            g.attr("transform", `translate(${margin.left},${margin.top})`);
+            const plotWidth = containerWidth - margin.left - margin.right; const plotHeight = containerHeight - margin.top - margin.bottom;
+            if (plotWidth <= 0 || plotHeight <= 0) throw new Error(`Plot area for #${targetId} invalid.`);
+            return { g, dims: { containerWidth, containerHeight, plotWidth, plotHeight } };
+        };
+
+        const drawAxes = (g, xScale, yScale, dims, margin, labels) => {
+            g.append("g").attr("class", "x axis").attr("transform", `translate(0,${dims.plotHeight})`).call(d3.axisBottom(xScale).ticks(labels.xTicks || 5).tickFormat(labels.xFormat || d3.format(".1f")));
+            g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight + margin.bottom - (labels.xOffset || 5)).text(labels.x || "X Axis").attr("class", "plot-svg axis-label");
+            g.append("g").attr("class", "y axis").call(d3.axisLeft(yScale).ticks(labels.yTicks || 5).tickFormat(labels.yFormat || d3.format(".1f")));
+            g.append("text").attr("transform", "rotate(-90)").attr("y", -margin.left + (labels.yOffset || 15)).attr("x", -dims.plotHeight / 2).text(labels.y || "Y Axis").attr("class", "plot-svg axis-label");
+        };
+
+        const drawLine = (g, plotData, lineGenerator, cssClass) => {
+            g.append("path").datum(plotData).attr("class", `line ${cssClass}`).attr("d", lineGenerator);
+        };
+
+         const displayPlotError = (targetId, message = "Error rendering plot.", isDirectSvg = false) => {
+            try { const margin = { top: 10, right: 10, bottom: 10, left: 10 }; const { g, dims } = setupPlotArea(targetId, margin, isDirectSvg); g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight / 2).text(message).style("font-size", "10px").attr("fill", "red").attr("text-anchor", "middle"); } catch (e) { console.error(`Failed to display error in target ${targetId}: ${e.message}`); }
+        };
+
+         function renderShearDataTypePlot() {
+             const plotSvgId = "shear-data-plot-svg";
+             try {
+                 const selectElement = document.getElementById('material-type-select');
+                 if (!selectElement) throw new Error("Material select element not found.");
+                 const materialType = selectElement.value;
+
+                 const margin = {top: 20, right: 50, bottom: 40, left: 40};
+                 const { g, dims } = setupPlotArea(plotSvgId, margin, true);
+
+                 const logOmegaMin = -2, logOmegaMax = 2;
+                 const numPoints = 100;
+
+                 const getMaterialData = (type) => {
+                     return d3.range(numPoints + 1).map(i => {
+                         const logOmega = logOmegaMin + (i / numPoints) * (logOmegaMax - logOmegaMin);
+                         const omega = Math.pow(10, logOmega);
+                         let G_prime, G_double_prime;
+
+                         switch(type) {
+                             case 'viscous': // G'' >> G', G'' ~ omega^1, G' ~ omega^2 at low omega
+                                 G_prime = 0.1 * omega**1.8;
+                                 G_double_prime = 10 * omega;
+                                 break;
+                             case 'elastic': // G' >> G'', G' nearly constant
+                                 G_prime = 80 + 0.5 * omega**0.2;
+                                 G_double_prime = 5 * omega**0.5;
+                                 break;
+                             case 'gel': // G' > G'', both weakly dependent on omega, G' plateaus
+                             default:
+                                 const G0_gel = 50; const omega_c = 1;
+                                 G_prime = G0_gel * (1 + 0.1 * omega**0.1); // Weak dependence, slight increase
+                                 G_double_prime = G0_gel * 0.2 * (omega/omega_c)**0.8 / (1 + (omega/omega_c)**0.8); // G'' peaks near omega_c, lower than G'
+                                 break;
+                         }
+                         return { logOmega, G_prime: isFinite(G_prime) ? G_prime : null, G_double_prime: isFinite(G_double_prime) ? G_double_prime : null };
+                     }).filter(d => isFinite(d.logOmega));
+                 };
+
+                 const plotData = getMaterialData(materialType);
+                 if (plotData.length < 2) throw new Error("Not enough valid data points for selected material.");
+
+                 const maxG = d3.max(plotData, d => Math.max(d.G_prime || 0, d.G_double_prime || 0));
+                 const yMax = Math.max(1, maxG * 1.2);
+                 const yMin = 0.01; // Set a minimum for log scale
+
+                 const xScale = d3.scaleLinear().domain([logOmegaMin, logOmegaMax]).range([0, dims.plotWidth]);
+                 const yScale = d3.scaleLog().domain([yMin, yMax]).range([dims.plotHeight, 0]).nice();
+
+                 drawAxes(g, xScale, yScale, dims, margin, {
+                     x: "Log₁₀(Frequency ω / Hz)",
+                     y: "Modulus (mN/m)",
+                     yFormat: d3.format(".1e"),
+                     xTicks: 5,
+                     yTicks: 4
+                 });
+
+                 const lineGen = (yAccessor) => d3.line()
+                     .x(d => xScale(d.logOmega))
+                     .y(d => yScale(Math.max(yMin, d[yAccessor]))) // Clamp to yMin
+                     .defined(d => d[yAccessor] !== null && d[yAccessor] >= yMin && isFinite(xScale(d.logOmega)) && isFinite(yScale(d[yAccessor])));
+
+                 drawLine(g, plotData, lineGen('G_prime'), 'g-prime-line');
+                 drawLine(g, plotData, lineGen('G_double_prime'), 'g-double-prime-line');
+
+                 const legend = g.append("g").attr("transform", `translate(${dims.plotWidth + 10}, 10)`);
+                 legend.append("rect").attr("x", 0).attr("y", 0).attr("width", 10).attr("height", 2).attr("fill", "#059669");
+                 legend.append("text").attr("x", 15).attr("y", 5).text("G'").attr("class", "plot-svg legend-text");
+                 legend.append("rect").attr("x", 0).attr("y", 15).attr("width", 10).attr("height", 2).attr("fill", "#ea580c");
+                 legend.append("text").attr("x", 15).attr("y", 20).text("G''").attr("class", "plot-svg legend-text");
+
+             } catch (error) { console.error(`Error rendering Shear Data Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
+         }
+
+        function renderGPrimeVsTimePlot() {
+            const plotSvgId = "g-prime-time-plot-svg";
+             try {
+                 const selectElement = document.getElementById('film-type-select');
+                 if (!selectElement) throw new Error("Film type select element not found.");
+                 const filmType = selectElement.value;
+
+                 const margin = {top: 10, right: 10, bottom: 40, left: 40};
+                 const { g, dims } = setupPlotArea(plotSvgId, margin, true);
+
+                 const logTimeMin = 0, logTimeMax = 4; // Log10(seconds), 1s to ~3 hours
+                 const numPoints = 100;
+
+                 const getGPrimeData = (type) => {
+                     return d3.range(numPoints + 1).map(i => {
+                         const logTime = logTimeMin + (i / numPoints) * (logTimeMax - logTimeMin);
+                         const time = Math.pow(10, logTime);
+                         let G_prime;
+
+                         switch(type) {
+                             case 'soluble': // Faster rise to plateau
+                                 const G_max_sol = 20; const k_sol = 0.01; // Faster rate
+                                 G_prime = G_max_sol * (1 - Math.exp(-k_sol * time));
+                                 break;
+                             case 'insoluble': // Slower rise + aging term
+                             default:
+                                 const G_max_insol = 15; const k_insol = 0.001; // Slower initial rate
+                                 const aging_slope = 2; // Slow increase on log time scale
+                                 const t0 = 10; // Onset of aging term
+                                 G_prime = G_max_insol * (1 - Math.exp(-k_insol * time)) + aging_slope * Math.log10(Math.max(1, time/t0 + 1));
+                                 break;
+                         }
+                         return { logTime, G_prime: isFinite(G_prime) ? G_prime : null };
+                     }).filter(d => isFinite(d.logTime));
+                 };
+
+                 const plotData = getGPrimeData(filmType);
+                 if (plotData.length < 2) throw new Error("Not enough valid data points for G' vs time.");
+
+                 const maxGPrime = d3.max(plotData, d => d.G_prime || 0);
+                 const yMax = Math.max(1, maxGPrime * 1.2);
+
+                 const xScale = d3.scaleLinear().domain([logTimeMin, logTimeMax]).range([0, dims.plotWidth]);
+                 const yScale = d3.scaleLinear().domain([0, yMax]).range([dims.plotHeight, 0]).nice(); // Linear G' scale
+
+                 drawAxes(g, xScale, yScale, dims, margin, {
+                     x: "Log₁₀(Time / s)",
+                     y: "G' (mN/m)",
+                     yFormat: d3.format(".1f"),
+                     xTicks: 5,
+                     yTicks: 5
+                 });
+
+                 const lineGen = d3.line()
+                     .x(d => xScale(d.logTime))
+                     .y(d => yScale(d.G_prime))
+                     .defined(d => d.G_prime !== null && isFinite(xScale(d.logTime)) && isFinite(yScale(d.G_prime)));
+
+                 drawLine(g, plotData, lineGen, 'g-prime-time-line');
+
+             } catch (error) { console.error(`Error rendering G' vs Time Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined' && MathJax.startup) {
+                MathJax.startup.promise.then(() => { console.log('MathJax ready for Page 2'); MathJax.typesetPromise(); });
+            }
+
+            // Removed setupSlider for eta-s-slider
+            // Removed setupSlider for osc-shear-freq-slider
+            // Removed setupSlider for osc-shear-phase-slider
+
+            const materialSelect = document.getElementById('material-type-select');
+            if (materialSelect) {
+                materialSelect.addEventListener('change', renderShearDataTypePlot);
+            }
+
+            const filmTypeSelect = document.getElementById('film-type-select');
+             if (filmTypeSelect) {
+                 filmTypeSelect.addEventListener('change', renderGPrimeVsTimePlot);
+             }
+
+            // Removed renderStressStrainRatePlot();
+            // Removed renderOscillatoryShearPlot();
+            renderShearDataTypePlot(); // Initial render for the shear data app
+            renderGPrimeVsTimePlot(); // Initial render for the new G' vs time app
+        });
+    </script>
+
+</body>
+</html>
