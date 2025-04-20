@@ -176,28 +176,6 @@
             <p class="text-gray-700 leading-relaxed mb-4">While simple oscillating rings exist, a significant improvement is the <strong class="font-semibold text-gray-800">Double-Wall Ring (DWR)</strong> geometry [cite: 77, 106-109]. The DWR features concentric walls that sit precisely at the interface, shearing the interfacial layer confined between them. This design minimizes disturbance to the bulk phases and reduces inertial effects, offering high sensitivity.</p>
             <figure class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <div>
-                    <svg width="250" height="200" viewBox="0 0 150 120">
-                        <title>Single Ring Viscometer Schematic</title>
-                        <use href="#sr-cup"/> <use href="#sr-liquid"/> <use href="#sr-interface"/>
-                        <use href="#sr-shaft"/> <use href="#sr-ring"/> <use href="#sr-highlight"/>
-                        <text x="75" y="95" class="svg-text" text-anchor="middle">Du Noüy Ring</text>
-                        <text x="75" y="115" class="svg-text" text-anchor="middle">Liquid</text>
-                        <path d="M 85 20 A 20 10 0 1 1 65 20" fill="none" stroke="black" stroke-width="0.5"/>
-                         <polygon points="85,20 82,17 82,23" fill="none"/>
-                         <polygon points="65,20 68,17 68,23" fill="none"/>
-                         <defs>
-                             <path id="sr-cup" d="M 10 110 C 10 70, 140 70, 140 110" fill="none" class="svg-base-stroke"/>
-                             <path id="sr-liquid" d="M 10 100 L 140 100 L 140 110 C 140 70 10 70 10 110 Z" class="svg-liquid"/>
-                             <line id="sr-interface" x1="10" y1="100" x2="140" y2="100" class="svg-interface"/>
-                             <line id="sr-shaft" x1="75" y1="20" x2="75" y2="60" class="svg-line"/>
-                             <line x1="45" y1="60" x2="105" y2="60" class="svg-line"/>
-                             <ellipse id="sr-ring" cx="75" cy="80" rx="40" ry="10" fill="none" class="svg-geom-stroke" stroke-width="1.5"/>
-                             <ellipse id="sr-highlight" cx="75" cy="80" rx="40" ry="10" class="svg-highlight" stroke-dasharray="2 2"/>
-                         </defs>
-                    </svg>
-                    <figcaption>Fig 3: Single Ring Concept (based on Fig 6, Marquez & Salager 2025).</figcaption>
-                </div>
-                <div>
                      <svg width="250" height="200" viewBox="0 0 150 120">
                           <title>Double Wall Ring (DWR) Schematic</title>
                           <use href="#dwr-base"/> <use href="#dwr-gap"/> <use href="#dwr-walls"/>
