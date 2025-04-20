@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfacial Rheology - Page 1: Fundamentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-padding-top: 6rem; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        mjx-container { text-align: left !important; margin: 0.5rem 0; }
+        .equation { display: block; text-align: center; margin: 1rem auto; font-size: 1.1rem; }
+        .plot-container { width: 100%; max-width: 500px; margin: 1rem auto; }
+        .plot-svg .axis path, .plot-svg .axis line { fill: none; stroke: #6b7280; shape-rendering: crispEdges; }
+        .plot-svg .axis text { font-size: 10px; fill: #4b5563; }
+        .plot-svg .line { fill: none; stroke-width: 2px; }
+        .plot-svg .g-prime-line { stroke: #059669; }
+        .plot-svg .g-double-prime-line { stroke: #ea580c; }
+        .plot-svg .strain-line { stroke: #10b981; }
+        .plot-svg .stress-line { stroke: #8b5cf6; }
+        .plot-svg .grid-line { stroke: #e5e7eb; stroke-width: 0.5; stroke-dasharray: 2,2; }
+        .plot-svg .axis-label { font-size: 11px; fill: #374151; text-anchor: middle; }
+        .plot-svg .legend-text { font-size: 10px; }
+        .deformation-svg .shape { fill: #d1fae5; stroke: #6ee7b7; stroke-width: 1.5; transition: transform 0.1s linear, width 0.1s linear, height 0.1s linear, x 0.1s linear, y 0.1s linear; transform-origin: center; }
+        .deformation-svg .arrow { fill: #4d7c0f; }
+        .slider-label-container { display: flex; justify-content: space-between; font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; font-size: 0.875rem; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: #84cc16; }
+        .output-box { margin-top: 1rem; padding: 0.75rem; background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 0.375rem; font-size: 0.875rem; color: #065f46; text-align: center; font-weight: 500; min-height: 40px; }
+        .interactive-block { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 1.5rem; border: 1px solid #d9f99d; border-radius: 0.5rem; background-color: #ffffff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        .styled-button-link { background-color: #a3e635; color: #3f6212; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; display: inline-block; text-align: center; border: none; }
+        .styled-button-link:hover { background-color: #84cc16; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <header class="bg-gradient-to-r from-lime-600 to-green-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl md:text-3xl font-bold">Interfacial Rheology</h1>
+            <p class="text-lg font-semibold mt-1">Page 1: Fundamentals</p>
+            <p class="text-xs mt-2 opacity-90">Based on Marquez & Salager, Colloids Interfaces 2025, 9, 14. <a href="https://doi.org/10.3390/colloids9010014" target="_blank" rel="noopener" class="underline hover:text-lime-200">[DOI]</a></p>
+            <nav class="mt-3 text-sm md:text-base">
+                <a href="#page1" class="font-semibold border-b-2 border-lime-300 pb-1 mr-4">Fundamentals</a>
+                <a href="Chap2.html" class="hover:text-lime-200 mr-4">Shear Instruments</a>
+                <a href="Chap3.html" class="hover:text-lime-200 mr-4">Dilational Instruments</a>
+                <a href="Chap4.html" class="hover:text-lime-200">Applications</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="page1" class="container mx-auto px-6 py-8">
+
+        <section id="intro" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">1. Introduction & Scope</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">Interfacial rheology investigates the mechanical response—deformation and flow—of the region (interphase or interface) between two immiscible phases, like oil and water or air and water. This field is crucial for understanding systems with extensive interfacial areas, such as emulsions and foams, where the properties of this boundary dictate overall behavior and stability.</p>
+            <p class="text-gray-700 leading-relaxed mb-4">Real-world systems often contain surface-active molecules (amphiphiles) like surfactants, proteins, or asphaltenes, which adsorb at the interface, forming structures ranging from simple monolayers to complex viscoelastic films. The mechanical properties of these interfaces influence phenomena across diverse fields including food science, energy production (Enhanced Oil Recovery - EOR), pharmaceuticals, cosmetics, and biological systems [cite: 4-27].</p>
+        </section>
+
+        <section id="deformation-modes" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
+             <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">2. Deformation Modes & Moduli</h2>
+             <p class="text-gray-700 leading-relaxed mb-4">Two primary modes describe how interfaces deform:</p>
+             <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-2 mb-4 pl-4">
+                 <li><strong class="font-semibold text-gray-800">Shear:</strong> Tangential deformation occurring at a <strong class="font-semibold">constant interfacial area</strong>. The resistance to this is quantified by the complex shear modulus, \(G^*\).</li>
+                 <li><strong class="font-semibold text-gray-800">Dilation (or Compression/Expansion):</strong> Deformation involving a <strong class="font-semibold">change in interfacial area</strong>, often assumed at constant shape. The resistance is quantified by the complex dilational modulus, \(E^*\).</li>
+             </ul>
+
+             <div class="interactive-block bg-white">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Interactive Deformation Modes</h4>
+                   <div class="mb-6 px-4">
+                       <label for="deformation-slider" class="text-sm text-center block mb-1">Deformation Amount (%):</label>
+                       <input type="range" id="deformation-slider" min="0" max="100" value="0" step="1">
+                       <div class="slider-label-container"><span>0%</span><span id="deformation-value">0%</span><span>100%</span></div>
+                   </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                      <div>
+                          <svg id="shear-svg" viewBox="-10 -10 120 120" class="deformation-svg mx-auto block max-w-[200px] h-[150px]">
+                              <title>Shear Deformation</title>
+                              <rect id="shear-rect" x="25" y="25" width="50" height="50" class="shape"/>
+                          </svg>
+                          <p class="font-medium mt-1 text-gray-800">Shear</p>
+                          <p class="text-xs text-gray-500">Constant Area</p>
+                      </div>
+                      <div>
+                          <svg id="dilation-svg" viewBox="-10 -10 120 120" class="deformation-svg mx-auto block max-w-[200px] h-[150px]">
+                               <title>Dilational Deformation</title>
+                               <rect id="dilation-rect" x="25" y="25" width="50" height="50" class="shape"/>
+                          </svg>
+                          <p class="font-medium mt-1 text-gray-800">Dilation / Compression</p>
+                          <p class="text-xs text-gray-500">Area Change</p>
+                      </div>
+                  </div>
+             </div>
+
+             <p class="text-gray-700 leading-relaxed my-4">These moduli are complex numbers representing both elastic (storage) and viscous (loss) components:</p>
+             <div class="equation">\( G^{*} = G^{\prime} + iG^{\prime \prime} \)</div>
+             <div class="equation">\( E^{*} = E^{\prime} + iE^{\prime \prime} \)</div>
+             <p class="text-gray-700 leading-relaxed mb-4">Here, \(G'\) and \(E'\) are the elastic (storage) moduli, representing the energy stored and recovered per cycle of deformation (solid-like behavior). \(G''\) and \(E''\) are the viscous (loss) moduli, representing energy dissipated as heat per cycle (liquid-like behavior). The imaginary unit is \(i = \sqrt{-1}\). All these moduli have units of force per length, typically mN/m.</p>
+         </section>
+
+        <section id="history" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">3. Historical Context</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">Early studies by Hadamard, Rybczynski, Boussinesq, Silvey, Frumkin, and Levich established foundational concepts [cite: 25, 37-40]. Boussinesq introduced the idea of a 2D "surface viscosity" to explain droplet sedimentation anomalies. Later, Frumkin and Levich correctly attributed these effects to the presence of surfactants, which create surface tension gradients when displaced during flow. This led to the understanding of the Gibbs-Marangoni effect.</p>
+        </section>
+
+        <section id="marangoni" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">4. The Gibbs-Marangoni Effect</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">This is a critical phenomenon in interfacial science. Gradients in interfacial tension (\(\nabla \gamma\)), typically caused by variations in surfactant concentration (\(\nabla \Gamma\)) along the interface, generate tangential stresses known as Marangoni stresses. These stresses drive fluid flow from regions of low tension to high tension (Marangoni flow).</p>
+            <p class="text-gray-700 leading-relaxed mb-4">In the context of dilational rheology, when an interface is expanded or compressed, the change in area alters the local surfactant concentration, creating tension gradients. The resulting Marangoni stress acts as a <strong class="font-semibold text-gray-800">restoring force</strong> opposing the deformation. This effect is a primary contributor to the elastic dilational modulus (\(E'\)). It plays a major role in stabilizing thin liquid films (like those between bubbles in a foam or droplets in an emulsion) against drainage and rupture.</p>
+            <p class="text-gray-700 leading-relaxed mb-4">The relative importance of this effect can be characterized by the Marangoni number: \( M = E / \gamma \).</p>
+             <blockquote class="border-l-4 border-lime-500 bg-lime-100 p-4 my-4 text-gray-700 italic rounded-r-lg">
+                Note: It's important to distinguish the dynamic dilational modulus \(E^*\) from the equilibrium Gibbs elasticity \(E_G = \Gamma (\partial \Pi / \partial \Gamma)_T = -A (\partial \gamma / \partial A)_T\), which relates equilibrium changes in surface pressure (\(\Pi = \gamma_0 - \gamma\)) or tension (\(\gamma\)) to equilibrium changes in surface concentration (\(\Gamma\)) or area (\(A\)) [cite: 94-101]. \(E^*\) incorporates dynamic and kinetic effects.
+             </blockquote>
+        </section>
+
+        <section id="dynamics" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">5. Dynamic Aspects & Frequency Dependence</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">Interfacial rheological properties are often strongly dependent on the frequency (\(\omega\)) of the applied deformation. This dependence arises because the interface's response involves molecular relaxation processes with characteristic timescales (\(\tau\)), such as surfactant adsorption/desorption, diffusion along the interface or between the interface and bulk, and conformational changes of adsorbed molecules (e.g., proteins, polymers) [cite: 65, 86, 102-109].</p>
+            <p class="text-gray-700 leading-relaxed mb-4">Conceptually:</p>
+             <ul class="list-disc list-inside text-gray-700 leading-relaxed space-y-2 mb-4 pl-4">
+                 <li>At <strong class="font-semibold text-gray-800">low frequencies</strong> (\(\omega \ll 1/\tau\)), molecules have time to relax or exchange with the bulk during deformation. Soluble surfactants can maintain near-equilibrium tension, reducing Marangoni stresses and leading to lower elasticity (\(E'\)) and predominantly viscous behavior (\(E'' > E'\)).</li>
+                 <li>At <strong class="font-semibold text-gray-800">high frequencies</strong> (\(\omega \gg 1/\tau\)), molecules cannot relax or exchange significantly within a deformation cycle. The interface behaves more like an insoluble, elastic film, leading to higher elasticity (\(E'\)) and predominantly elastic behavior (\(E' > E''\)).</li>
+                 <li>Near the <strong class="font-semibold text-gray-800">crossover frequency</strong> (\(\omega \approx 1/\tau\)), both elastic and viscous contributions are significant, and the loss modulus (\(E''\) or \(G''\)) often exhibits a maximum.</li>
+             </ul>
+
+             <div class="interactive-block bg-lime-50">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Viscoelastic Response vs. Frequency</h4>
+                  <p class="text-xs text-center text-gray-500 mb-4">Adjust the conceptual relaxation time (\(\tau\)) to see how the crossover frequency changes where elastic (G'/E') and viscous (G''/E'') moduli dominate. Based on a simple Maxwell model.</p>
+                  <div class="mb-4 px-4">
+                      <label for="visco-tau-slider-log" class="text-sm text-center block mb-1">Log₁₀(Relaxation Time / τ):</label>
+                      <input type="range" id="visco-tau-slider-log" min="-3" max="1" value="-1" step="0.1">
+                      <div class="slider-label-container"><span>Fast (0.001s)</span><span id="visco-tau-value">10<sup>-1.0</sup> s</span><span>Slow (10s)</span></div>
+                  </div>
+                  <div id="visco-plot-container" class="plot-container">
+                      <svg id="visco-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="450" height="250"></svg>
+                  </div>
+                  <div id="visco-behavior-output" class="output-box bg-lime-100 border-lime-200 text-lime-800">Behavior: Viscous Dominant</div>
+             </div>
+
+              <div class="interactive-block bg-lime-50 mt-8">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Strain vs. Stress Response</h4>
+                   <p class="text-xs text-center text-gray-500 mb-4">Adjust the phase angle (\(\varphi\)) between strain (input) and stress (response). \(\varphi=0^\circ\) is purely elastic, \(\varphi=90^\circ\) is purely viscous.</p>
+                   <div class="mb-4 px-4">
+                       <label for="phase-angle-slider" class="text-sm text-center block mb-1">Phase Angle (\(\varphi\), degrees):</label>
+                       <input type="range" id="phase-angle-slider" min="0" max="90" value="30" step="1">
+                       <div class="slider-label-container"><span>Elastic (0°)</span><span id="phase-angle-value">30°</span><span>Viscous (90°)</span></div>
+                   </div>
+                   <div id="phase-plot-container" class="plot-container">
+                       <svg id="phase-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="450" height="250"></svg>
+                   </div>
+              </div>
+
+             <div class="interactive-block bg-lime-50 mt-8">
+                  <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Boussinesq Number (Bo) Estimator</h4>
+                  <p class="text-xs text-center text-gray-500 mb-4">Estimate the conceptual Boussinesq number (\(Bo = \eta_s / (\eta_b \cdot L)\)) comparing interfacial (\(\eta_s\)) to bulk (\(\eta_b\)) viscous effects over length \(L\).</p>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 mb-4">
+                      <div>
+                          <label for="bo-eta-s-slider">Log₁₀(\(\eta_s\), mN·s/m):</label>
+                          <input type="range" id="bo-eta-s-slider" min="-6" max="0" value="-3" step="0.1">
+                          <div class="slider-label-container"><span>10⁻⁶</span><span id="bo-eta-s-value">10⁻³.⁰</span><span>10⁰</span></div>
+                      </div>
+                      <div>
+                          <label for="bo-eta-b-slider">Log₁₀(\(\eta_b\), mPa·s):</label>
+                          <input type="range" id="bo-eta-b-slider" min="0" max="3" value="0" step="0.1">
+                           <div class="slider-label-container"><span>1</span><span id="bo-eta-b-value">10⁰.⁰</span><span>1000</span></div>
+                      </div>
+                      <div>
+                          <label for="bo-l-slider">Log₁₀(L, mm):</label>
+                          <input type="range" id="bo-l-slider" min="-1" max="2" value="0" step="0.1">
+                          <div class="slider-label-container"><span>0.1</span><span id="bo-l-value">10⁰.⁰</span><span>100</span></div>
+                      </div>
+                  </div>
+                  <div id="bo-output" class="output-box bg-lime-100 border-lime-200 text-lime-800">Bo ≈ 1.0e+0 : Both effects potentially significant.</div>
+                  <p class="text-xs text-center text-gray-500 mt-2">Note: Uses conceptual units and steady flow definition.</p>
+              </div>
+        </section>
+
+         <section class="mt-12 text-center">
+              <a href="Chap2.html" class="styled-button-link">
+                  Next: Shear Instruments →
+              </a>
+          </section>
+
+    </main>
+
+     <footer class="mt-16 pt-8 pb-8 border-t border-gray-300 text-center">
+         <p class="text-xs text-gray-500">Source: Marquez, R.; Salager, J.-L. Measurement Techniques for Interfacial Rheology... Colloids Interfaces 2025, 9, 14.</p>
+         <p class="text-xs text-gray-500 mt-1">PhD Course Module - University of Girona</p>
+     </footer>
+
+    <script>
+        const setupSlider = (sliderId, valueId, options = {}) => {
+            const slider = document.getElementById(sliderId);
+            const valueDisplay = document.getElementById(valueId);
+            if (!slider || !valueDisplay) return;
+            const { fixedDigits = 1, logScale = false, callback = null, unit = '', displayFormat = null } = options;
+            const minAttr = parseFloat(slider.min);
+            const maxAttr = parseFloat(slider.max);
+            const safeMin = isNaN(minAttr) ? (logScale ? 1e-9 : 0) : (logScale ? Math.max(1e-9, minAttr) : minAttr);
+            let safeMax = isNaN(maxAttr) ? safeMin * (logScale ? 1000 : 100) : (logScale ? Math.max(safeMin * 1.1, maxAttr) : Math.max(safeMin + 1e-9, maxAttr));
+            if (safeMax <= safeMin) safeMax = safeMin * (logScale ? 10 : 2);
+            if (safeMax <= safeMin) safeMax = safeMin + 1;
+
+            const calculateActualValue = () => {
+                const rawValue = parseFloat(slider.value);
+                let actual;
+                if (logScale) {
+                    const minLog = Math.log10(safeMin);
+                    const maxLog = Math.log10(safeMax);
+                    const range = maxLog - minLog;
+                    const sliderMinInternal = parseFloat(slider.min);
+                    const sliderMaxInternal = parseFloat(slider.max);
+                    const sliderRangeInternal = sliderMaxInternal - sliderMinInternal;
+                    if (!isFinite(minLog) || !isFinite(maxLog) || !isFinite(range) || range <= 0 || sliderRangeInternal <= 0) { actual = safeMin; }
+                    else {
+                        const normalizedSliderValue = Math.max(0, Math.min(1, (rawValue - sliderMinInternal) / sliderRangeInternal));
+                        actual = Math.pow(10, minLog + normalizedSliderValue * range);
+                    }
+                } else { actual = rawValue; }
+                slider.actualValue = (!isFinite(actual)) ? safeMin : Math.max(safeMin, Math.min(safeMax, actual));
+            };
+
+            const formatDisplayValue = (value) => {
+                 if (displayFormat === 'percentage') return `${Math.round(value)}%`;
+                if (typeof value !== 'number' || !isFinite(value)) return "NaN";
+                try {
+                    if ((logScale && value < 0.01 && value > 1e-9) || (value !== 0 && Math.abs(value) < 0.001)) { return value.toExponential(fixedDigits); }
+                    if (Math.abs(value) < 1000000 || value === 0) { return value.toFixed(Math.max(0, fixedDigits)); }
+                    return value.toExponential(fixedDigits);
+                } catch { return "FmtErr"; }
+            };
+
+            const updateDisplayAndTriggerCallback = () => {
+                if (!slider || !valueDisplay) return;
+                try {
+                    calculateActualValue();
+                    let displayValText = formatDisplayValue(slider.actualValue);
+                    if(options.prefix) displayValText = options.prefix + displayValText;
+                    if(unit) displayValText += unit;
+                    valueDisplay.textContent = displayValText;
+                    if (typeof callback === 'function') callback();
+                } catch (e) { console.error(`Error updating slider ${sliderId}:`, e); valueDisplay.textContent = "Error"; }
+            };
+
+            let initialNumericValue = slider.getAttribute('value') ? parseFloat(slider.getAttribute('value')) : safeMin;
+            if (isNaN(initialNumericValue)) initialNumericValue = safeMin;
+
+            if (logScale) {
+                initialNumericValue = Math.max(safeMin, Math.min(safeMax, initialNumericValue));
+                const minLog = Math.log10(safeMin); const maxLog = Math.log10(safeMax); const range = maxLog - minLog;
+                let initialSliderPos = 0;
+                if (isFinite(minLog) && isFinite(maxLog) && isFinite(range) && range > 0 && initialNumericValue > 0) {
+                    initialSliderPos = Math.round(((Math.log10(initialNumericValue) - minLog) / range) * 100);
+                }
+                slider.min = "0"; slider.max = "100"; slider.step = "1"; slider.value = initialSliderPos.toString();
+            } else {
+                initialNumericValue = Math.max(safeMin, Math.min(safeMax, initialNumericValue));
+                slider.min = safeMin.toString(); slider.max = safeMax.toString();
+                const range = safeMax - safeMin; let step = (range > 0) ? (range / 100) : 1e-6;
+                if (step > 0) { const magnitude = Math.pow(10, Math.floor(Math.log10(step))); step = Math.max(1e-6, Math.round(step / magnitude) * magnitude); } else { step = 1e-6; }
+                slider.step = step > 0 ? step.toExponential(2) : 'any'; slider.value = initialNumericValue.toString();
+            }
+            slider.oninput = updateDisplayAndTriggerCallback;
+            calculateActualValue();
+            let initialDisplayValText = formatDisplayValue(slider.actualValue);
+             if(options.prefix) initialDisplayValText = options.prefix + initialDisplayValText;
+             if(unit) initialDisplayValText += unit;
+            valueDisplay.textContent = initialDisplayValText;
+        };
+
+        const setupPlotArea = (targetId, margin, isDirectSvg = false) => {
+            let svg, g, containerWidth, containerHeight;
+            if (isDirectSvg) {
+                svg = d3.select(`#${targetId}`); if (svg.empty()) throw new Error(`Target SVG #${targetId} not found.`);
+                containerWidth = parseFloat(svg.attr("width")) || 400; containerHeight = parseFloat(svg.attr("height")) || 200;
+                svg.selectAll("g").remove(); g = svg.append("g").attr("id", `${targetId}-plot-group`).attr("class", "d3-plot");
+            } else {
+                const plotDiv = document.getElementById(targetId); if (!plotDiv) throw new Error(`Plot container #${targetId} not found.`);
+                containerWidth = plotDiv.clientWidth; containerHeight = plotDiv.clientHeight; if (!containerWidth || !containerHeight || containerWidth <= 0 || containerHeight <= 0) throw new Error(`Plot container #${targetId} has invalid dimensions.`);
+                svg = d3.select(plotDiv).select("svg"); if (svg.empty()) svg = d3.select(plotDiv).append("svg");
+                svg.attr("width", "100%").attr("height", "100%").attr("viewBox", `0 0 ${containerWidth} ${containerHeight}`).attr("preserveAspectRatio", "xMidYMid meet");
+                svg.selectAll("*").remove(); g = svg.append("g").attr("class", "d3-plot");
+            }
+            g.attr("transform", `translate(${margin.left},${margin.top})`);
+            const plotWidth = containerWidth - margin.left - margin.right; const plotHeight = containerHeight - margin.top - margin.bottom;
+            if (plotWidth <= 0 || plotHeight <= 0) throw new Error(`Plot area for #${targetId} invalid.`);
+            return { g, dims: { containerWidth, containerHeight, plotWidth, plotHeight } };
+        };
+
+        const drawAxes = (g, xScale, yScale, dims, margin, labels) => {
+            g.append("g").attr("class", "x axis").attr("transform", `translate(0,${dims.plotHeight})`).call(d3.axisBottom(xScale).ticks(labels.xTicks || 5).tickFormat(labels.xFormat || d3.format(".1f")));
+            g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight + margin.bottom - (labels.xOffset || 5)).text(labels.x || "X Axis").attr("class", "plot-svg axis-label");
+            g.append("g").attr("class", "y axis").call(d3.axisLeft(yScale).ticks(labels.yTicks || 5).tickFormat(labels.yFormat || d3.format(".1f")));
+            g.append("text").attr("transform", "rotate(-90)").attr("y", -margin.left + (labels.yOffset || 15)).attr("x", -dims.plotHeight / 2).text(labels.y || "Y Axis").attr("class", "plot-svg axis-label");
+        };
+
+         const drawAxesWithTwoY = (g, xScale, yScaleLeft, yScaleRight, dims, margin, labels) => {
+             g.append("g").attr("class", "x axis").attr("transform", `translate(0,${dims.plotHeight})`).call(d3.axisBottom(xScale).ticks(labels.xTicks || 5).tickFormat(labels.xFormat || d3.format(".1f")));
+             g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight + margin.bottom - (labels.xOffset || 5)).text(labels.x || "X Axis").attr("class", "plot-svg axis-label");
+             g.append("g").attr("class", "y axis left").call(d3.axisLeft(yScaleLeft).ticks(labels.yLeftTicks || 5).tickFormat(labels.yLeftFormat || d3.format(".1f"))).attr("stroke", labels.yLeftColor || null);
+             g.append("text").attr("transform", "rotate(-90)").attr("y", -margin.left + (labels.yLeftOffset || 15)).attr("x", -dims.plotHeight / 2).text(labels.yLeft || "Left Y").attr("class", "plot-svg axis-label").attr("fill", labels.yLeftColor || 'currentColor');
+             if (yScaleRight && labels.yRight) {
+                 g.append("g").attr("class", "y axis right").attr("transform", `translate(${dims.plotWidth},0)`).call(d3.axisRight(yScaleRight).ticks(labels.yRightTicks || 5).tickFormat(labels.yRightFormat || d3.format(".1f"))).attr("stroke", labels.yRightColor || null);
+                 g.append("text").attr("transform", "rotate(90)").attr("y", -dims.plotWidth - margin.right + (labels.yRightOffset || 15)).attr("x", dims.plotHeight / 2).text(labels.yRight || "Right Y").attr("class", "plot-svg axis-label").attr("fill", labels.yRightColor || 'currentColor');
+             }
+         };
+
+        const drawLine = (g, plotData, lineGenerator, cssClass) => {
+            g.append("path").datum(plotData).attr("class", `line ${cssClass}`).attr("d", lineGenerator);
+        };
+
+        const displayPlotError = (targetId, message = "Error rendering plot.", isDirectSvg = false) => {
+            try { const margin = { top: 10, right: 10, bottom: 10, left: 10 }; const { g, dims } = setupPlotArea(targetId, margin, isDirectSvg); g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight / 2).text(message).style("font-size", "10px").attr("fill", "red").attr("text-anchor", "middle"); } catch (e) { console.error(`Failed to display error in target ${targetId}: ${e.message}`); }
+        };
+
+        function updateDeformationVisualizer() {
+             const slider = document.getElementById('deformation-slider');
+             const shearRect = d3.select("#shear-rect");
+             const dilationRect = d3.select("#dilation-rect");
+             if (!slider || shearRect.empty() || dilationRect.empty() || typeof slider.actualValue === 'undefined') return;
+
+             const deformationPercent = slider.actualValue;
+             const deformationFactor = deformationPercent / 100;
+
+             const initialSize = 50;
+             const centerX = 50;
+             const centerY = 50;
+
+             const maxSkewAngle = 30;
+             const skewAngle = deformationFactor * maxSkewAngle;
+             shearRect.attr("transform", `skewX(${skewAngle}) translate(${-skewAngle*0.4}, 0)`);
+
+             const minScale = 1.0;
+             const maxScale = 1.8;
+             const scaleFactor = minScale + deformationFactor * (maxScale - minScale);
+             const newSize = initialSize * scaleFactor;
+             const newX = centerX - newSize / 2;
+             const newY = centerY - newSize / 2;
+             dilationRect
+                 .attr("width", newSize)
+                 .attr("height", newSize)
+                 .attr("x", newX)
+                 .attr("y", newY);
+         }
+
+        function renderViscoPlot() {
+            const plotSvgId = "visco-plot-svg";
+            try {
+                const tauSlider = document.getElementById('visco-tau-slider-log');
+                if (!tauSlider || typeof tauSlider.actualValue === 'undefined') throw new Error("Visco slider not found or not initialized.");
+                const tau = tauSlider.actualValue; if (typeof tau !== 'number' || !isFinite(tau) || tau <= 0) throw new Error(`Invalid tau value`);
+                const margin = {top: 20, right: 50, bottom: 40, left: 40}; const { g, dims } = setupPlotArea(plotSvgId, margin, true);
+                const logFreqMin = -4, logFreqMax = 4; const numPoints = 100; const G_inf = 100;
+                const plotData = d3.range(numPoints + 1).map(i => { const logOmegaTau = logFreqMin + (i / numPoints) * (logFreqMax - logFreqMin); const omegaTau = Math.pow(10, logOmegaTau); const denominator = 1 + omegaTau**2; const G_prime = G_inf * omegaTau**2 / denominator; const G_double_prime = G_inf * omegaTau / denominator; return { logOmegaTau, G_prime: isFinite(G_prime) ? G_prime : null, G_double_prime: isFinite(G_double_prime) ? G_double_prime : null }; }).filter(d => isFinite(d.logOmegaTau)); if (plotData.length < 2) throw new Error("Not enough valid data points.");
+                const xScale = d3.scaleLinear().domain([logFreqMin, logFreqMax]).range([0, dims.plotWidth]); const yMax = G_inf * 1.1; const yScale = d3.scaleLinear().domain([0, yMax]).range([dims.plotHeight, 0]).nice();
+                drawAxes(g, xScale, yScale, dims, margin, { x: "Log₁₀(ωτ)", y: "Modulus (mN/m)" });
+                const lineGen = (yAccessor) => d3.line().x(d => xScale(d.logOmegaTau)).y(d => yScale(d[yAccessor])).defined(d => d[yAccessor] !== null && isFinite(xScale(d.logOmegaTau)) && isFinite(yScale(d[yAccessor])));
+                drawLine(g, plotData, lineGen('G_prime'), 'g-prime-line'); drawLine(g, plotData, lineGen('G_double_prime'), 'g-double-prime-line');
+                g.append("line").attr("x1", xScale(0)).attr("y1", 0).attr("x2", xScale(0)).attr("y2", dims.plotHeight).attr("stroke", "grey").attr("stroke-dasharray", "2 2"); g.append("text").attr("x", xScale(0)).attr("y", -5).text(`ωτ=1`).attr("font-size", "9px").attr("text-anchor", "middle");
+                const legend = g.append("g").attr("transform", `translate(${dims.plotWidth + 10}, 10)`); legend.append("rect").attr("x", 0).attr("y", 0).attr("width", 10).attr("height", 2).attr("fill", "#059669"); legend.append("text").attr("x", 15).attr("y", 5).text("G'/E'").attr("class", "plot-svg legend-text"); legend.append("rect").attr("x", 0).attr("y", 15).attr("width", 10).attr("height", 2).attr("fill", "#ea580c"); legend.append("text").attr("x", 15).attr("y", 20).text("G''/E''").attr("class", "plot-svg legend-text");
+
+                const behaviorOutput = document.getElementById('visco-behavior-output');
+                if(behaviorOutput){
+                    const logOmegaTauNow = 0;
+                    const omegaTauNow = Math.pow(10, logOmegaTauNow);
+                    const gpNow = G_inf * omegaTauNow**2 / (1 + omegaTauNow**2);
+                    const gppNow = G_inf * omegaTauNow / (1 + omegaTauNow**2);
+                    let behavior = "Crossover";
+                    if (gpNow > gppNow * 1.1) behavior = "Elastic Dominant";
+                    else if (gppNow > gpNow * 1.1) behavior = "Viscous Dominant";
+                    behaviorOutput.textContent = `Behavior at ωτ=1: ${behavior}`;
+                }
+
+            } catch (error) { console.error(`Error rendering Visco Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
+        }
+
+         function renderPhasePlot() {
+             const plotSvgId = "phase-plot-svg";
+             try {
+                 const phaseSlider = document.getElementById('phase-angle-slider');
+                 if (!phaseSlider || typeof phaseSlider.actualValue === 'undefined') throw new Error("Phase slider not found or not initialized.");
+                 const phi_deg = phaseSlider.actualValue; if (typeof phi_deg !== 'number' || !isFinite(phi_deg)) throw new Error(`Invalid phase value`);
+                 const phi_rad = phi_deg * Math.PI / 180; const omega = 2 * Math.PI * 0.5; const amplitude = 1; const modulus = 1;
+                 const margin = {top: 10, right: 10, bottom: 30, left: 40}; const { g, dims } = setupPlotArea(plotSvgId, margin, true);
+                 const t_end = 2; const num_points = 100; const t = d3.range(0, t_end, t_end / num_points);
+                 const plotData = t.map(time => ({ time: time, strain: amplitude * Math.sin(omega * time), stress: modulus * amplitude * Math.sin(omega * time + phi_rad) })).filter(d => isFinite(d.time) && isFinite(d.strain) && isFinite(d.stress)); if (plotData.length < 2) throw new Error("Not enough valid data points.");
+                 const xScale = d3.scaleLinear().domain([0, t_end]).range([0, dims.plotWidth]); const yScale = d3.scaleLinear().domain([-amplitude * 1.2, amplitude * 1.2]).range([dims.plotHeight, 0]);
+                 drawAxes(g, xScale, yScale, dims, margin, { x: "Time (arbitrary units)", y: "Response (arbitrary units)" });
+                 const lineGen = (yAccessor) => d3.line().x(d => xScale(d.time)).y(d => yScale(d[yAccessor])).defined(d => d[yAccessor] !== null && isFinite(xScale(d.time)) && isFinite(yScale(d[yAccessor])));
+                 drawLine(g, plotData, lineGen('strain'), 'strain-line'); drawLine(g, plotData, lineGen('stress'), 'stress-line');
+
+                 const legend = g.append("g").attr("transform", `translate(10, 10)`); legend.append("rect").attr("x", 0).attr("y", 0).attr("width", 10).attr("height", 2).attr("fill", "#10b981"); legend.append("text").attr("x", 15).attr("y", 5).text("Strain").attr("class", "plot-svg legend-text"); legend.append("rect").attr("x", 0).attr("y", 15).attr("width", 10).attr("height", 2).attr("fill", "#8b5cf6"); legend.append("text").attr("x", 15).attr("y", 20).text("Stress").attr("class", "plot-svg legend-text");
+
+             } catch (error) { console.error(`Error rendering Phase Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
+         }
+
+        function updateBoValue() {
+            const boOutput = document.getElementById('bo-output');
+            const etaSSlider = document.getElementById('bo-eta-s-slider');
+            const etaBSlider = document.getElementById('bo-eta-b-slider');
+            const lSlider = document.getElementById('bo-l-slider');
+            if (!boOutput || !etaSSlider || !etaBSlider || !lSlider || typeof etaSSlider.actualValue === 'undefined' || typeof etaBSlider.actualValue === 'undefined' || typeof lSlider.actualValue === 'undefined') return;
+
+            try {
+                const eta_s_mNsm = etaSSlider.actualValue;
+                const eta_b_mPas = etaBSlider.actualValue;
+                const L_mm = lSlider.actualValue;
+                if (![eta_s_mNsm, eta_b_mPas, L_mm].every(v => typeof v === 'number' && isFinite(v))) throw new Error("Invalid slider value");
+
+                const eta_s = eta_s_mNsm / 1000;
+                const eta_b = eta_b_mPas / 1000;
+                const L = L_mm / 1000;
+                let Bo = NaN; let interpretation = "Invalid input (eta_b or L is zero).";
+
+                if (eta_b > 1e-12 && L > 1e-12) {
+                    Bo = eta_s / (eta_b * L);
+                    if (!isFinite(Bo)) { interpretation = "Calculation resulted in non-finite Bo."; }
+                    else if (Bo < 0.01) { interpretation = "Bulk effects likely dominate."; }
+                    else if (Bo > 100) { interpretation = "Interfacial effects likely dominate."; }
+                    else { interpretation = "Both effects potentially significant."; }
+                }
+                boOutput.textContent = isFinite(Bo) ? `Bo ≈ ${Bo.toExponential(1)} : ${interpretation}` : interpretation;
+            } catch (error) { boOutput.textContent = `Error: ${error.message}`; }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined' && MathJax.startup) { MathJax.startup.promise.then(() => { console.log('MathJax ready'); }); }
+            setupSlider('deformation-slider', 'deformation-value', { fixedDigits: 0, callback: updateDeformationVisualizer, displayFormat: 'percentage'});
+            setupSlider('visco-tau-slider-log', 'visco-tau-value', { fixedDigits: 1, logScale: true, callback: renderViscoPlot, prefix: '10^', unit: ' s' });
+            setupSlider('phase-angle-slider', 'phase-angle-value', { fixedDigits: 0, callback: renderPhasePlot, unit: '°' });
+            setupSlider('bo-eta-s-slider', 'bo-eta-s-value', { fixedDigits: 1, logScale: true, callback: updateBoValue, prefix: '10^' });
+            setupSlider('bo-eta-b-slider', 'bo-eta-b-value', { fixedDigits: 1, logScale: true, callback: updateBoValue, prefix: '10^' });
+            setupSlider('bo-l-slider', 'bo-l-value', { fixedDigits: 1, logScale: true, callback: updateBoValue, prefix: '10^' });
+
+            updateDeformationVisualizer();
+            renderViscoPlot();
+            renderPhasePlot();
+            updateBoValue();
+        });
+    </script>
+
+</body>
+</html>
