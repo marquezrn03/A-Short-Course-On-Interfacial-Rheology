@@ -15,7 +15,7 @@
         body { font-family: 'Inter', sans-serif; }
         mjx-container { text-align: left !important; margin: 0.5rem 0; }
         .equation { display: block; text-align: center; margin: 1rem auto; font-size: 1.1rem; }
-        .plot-container { width: 100%; max-width: 500px; margin: 1rem auto; }
+        .plot-container { width: 100%; max-width: 500px; margin: 1rem auto; min-height: 280px; position: relative; }
         .plot-svg .axis path, .plot-svg .axis line { fill: none; stroke: #6b7280; shape-rendering: crispEdges; }
         .plot-svg .axis text { font-size: 10px; fill: #4b5563; }
         .plot-svg .line { fill: none; stroke-width: 2px; }
@@ -26,6 +26,8 @@
         .plot-svg .grid-line { stroke: #e5e7eb; stroke-width: 0.5; stroke-dasharray: 2,2; }
         .plot-svg .axis-label { font-size: 11px; fill: #374151; text-anchor: middle; }
         .plot-svg .legend-text { font-size: 10px; }
+        .plot-svg .crossover-marker { fill: #dc2626; } /* Red marker */
+        .plot-svg .crossover-text { font-size: 9px; fill: #dc2626; text-anchor: middle; }
         .deformation-svg .shape { fill: #d1fae5; stroke: #6ee7b7; stroke-width: 1.5; transition: transform 0.1s linear, width 0.1s linear, height 0.1s linear, x 0.1s linear, y 0.1s linear; transform-origin: center; }
         .deformation-svg .arrow { fill: #4d7c0f; }
         .slider-label-container { display: flex; justify-content: space-between; font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
@@ -35,6 +37,7 @@
         .interactive-block { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 1.5rem; border: 1px solid #d9f99d; border-radius: 0.5rem; background-color: #ffffff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
         .styled-button-link { background-color: #a3e635; color: #3f6212; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; display: inline-block; text-align: center; border: none; }
         .styled-button-link:hover { background-color: #84cc16; }
+        .clarification-note { font-size: 0.75rem; color: #4b5563; margin-top: 0.5rem; text-align: center; font-style: italic; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
@@ -129,16 +132,17 @@
 
              <div class="interactive-block bg-lime-50">
                   <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Viscoelastic Response vs. Frequency</h4>
-                  <p class="text-xs text-center text-gray-500 mb-4">Adjust the conceptual relaxation time (\(\tau\)) to see how the crossover frequency changes where elastic (G'/E') and viscous (G''/E'') moduli dominate. Based on a simple Maxwell model.</p>
+                  <p class="text-xs text-center text-gray-500 mb-4">Adjust the relaxation time (\(\tau\)) to see how the response curve shifts relative to frequency (\(\omega\)). The crossover (G' ≈ G'') occurs near \(\omega = 1/\tau\).</p>
                   <div class="mb-4 px-4">
-                      <label for="visco-tau-slider-log" class="text-sm text-center block mb-1">Log₁₀(Relaxation Time / τ):</label>
+                      <label for="visco-tau-slider-log" class="text-sm text-center block mb-1">Log₁₀(Relaxation Time τ / s):</label>
                       <input type="range" id="visco-tau-slider-log" min="-3" max="1" value="-1" step="0.1">
-                      <div class="slider-label-container"><span>Fast (0.001s)</span><span id="visco-tau-value">10<sup>-1.0</sup> s</span><span>Slow (10s)</span></div>
+                      <div class="slider-label-container"><span>Fast (10⁻³s)</span><span id="visco-tau-value">10<sup>-1.0</sup> s</span><span>Slow (10¹s)</span></div>
                   </div>
                   <div id="visco-plot-container" class="plot-container">
                       <svg id="visco-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="450" height="250"></svg>
                   </div>
-                  <div id="visco-behavior-output" class="output-box bg-lime-100 border-lime-200 text-lime-800">Behavior: Viscous Dominant</div>
+                  <div id="visco-behavior-output" class="output-box bg-lime-100 border-lime-200 text-lime-800">Behavior at 1 Hz: Viscous Dominant</div>
+                   <p class="clarification-note">Note: This plot illustrates the concept using a single Maxwell element model. Real interfacial systems often exhibit more complex behavior.</p>
              </div>
 
               <div class="interactive-block bg-lime-50 mt-8">
@@ -175,7 +179,7 @@
                       </div>
                   </div>
                   <div id="bo-output" class="output-box bg-lime-100 border-lime-200 text-lime-800">Bo ≈ 1.0e+0 : Both effects potentially significant.</div>
-                  <p class="text-xs text-center text-gray-500 mt-2">Note: Uses conceptual units and steady flow definition.</p>
+                  <p class="clarification-note">Note: This definition of Bo applies primarily to steady flows. Frequency-dependent or oscillatory flow definitions also exist.</p>
               </div>
         </section>
 
@@ -197,51 +201,63 @@
             const slider = document.getElementById(sliderId);
             const valueDisplay = document.getElementById(valueId);
             if (!slider || !valueDisplay) return;
-            const { fixedDigits = 1, logScale = false, callback = null, unit = '', displayFormat = null } = options;
+            const { fixedDigits = 1, logScale = false, callback = null, unit = '', displayFormat = null, prefix = '' } = options;
             const minAttr = parseFloat(slider.min);
             const maxAttr = parseFloat(slider.max);
-            const safeMin = isNaN(minAttr) ? (logScale ? 1e-9 : 0) : (logScale ? Math.max(1e-9, minAttr) : minAttr);
-            let safeMax = isNaN(maxAttr) ? safeMin * (logScale ? 1000 : 100) : (logScale ? Math.max(safeMin * 1.1, maxAttr) : Math.max(safeMin + 1e-9, maxAttr));
+            const safeMin = isNaN(minAttr) ? (logScale ? 1e-3: 0) : (logScale ? Math.max(1e-3, minAttr) : minAttr);
+            let safeMax = isNaN(maxAttr) ? safeMin * (logScale ? 1000 : 100) : (logScale ? Math.max(safeMin * 1.1, maxAttr) : Math.max(safeMin + 1e-3, maxAttr));
             if (safeMax <= safeMin) safeMax = safeMin * (logScale ? 10 : 2);
             if (safeMax <= safeMin) safeMax = safeMin + 1;
+
+            const calculateLogExponent = (rawValue) => {
+                 const minLog = Math.log10(safeMin);
+                 const maxLog = Math.log10(safeMax);
+                 const range = maxLog - minLog;
+                 const sliderMinInternal = parseFloat(slider.min);
+                 const sliderMaxInternal = parseFloat(slider.max);
+                 const sliderRangeInternal = sliderMaxInternal - sliderMinInternal;
+                 if (!isFinite(minLog) || !isFinite(maxLog) || !isFinite(range) || range <= 0 || sliderRangeInternal <= 0) { return Math.log10(safeMin); }
+                 else {
+                     const normalizedSliderValue = Math.max(0, Math.min(1, (rawValue - sliderMinInternal) / sliderRangeInternal));
+                     return minLog + normalizedSliderValue * range;
+                 }
+            };
 
             const calculateActualValue = () => {
                 const rawValue = parseFloat(slider.value);
                 let actual;
                 if (logScale) {
-                    const minLog = Math.log10(safeMin);
-                    const maxLog = Math.log10(safeMax);
-                    const range = maxLog - minLog;
-                    const sliderMinInternal = parseFloat(slider.min);
-                    const sliderMaxInternal = parseFloat(slider.max);
-                    const sliderRangeInternal = sliderMaxInternal - sliderMinInternal;
-                    if (!isFinite(minLog) || !isFinite(maxLog) || !isFinite(range) || range <= 0 || sliderRangeInternal <= 0) { actual = safeMin; }
-                    else {
-                        const normalizedSliderValue = Math.max(0, Math.min(1, (rawValue - sliderMinInternal) / sliderRangeInternal));
-                        actual = Math.pow(10, minLog + normalizedSliderValue * range);
-                    }
+                    actual = Math.pow(10, calculateLogExponent(rawValue));
                 } else { actual = rawValue; }
                 slider.actualValue = (!isFinite(actual)) ? safeMin : Math.max(safeMin, Math.min(safeMax, actual));
             };
 
-            const formatDisplayValue = (value) => {
+            const formatDisplayValue = (value, exponent = null) => {
                  if (displayFormat === 'percentage') return `${Math.round(value)}%`;
-                if (typeof value !== 'number' || !isFinite(value)) return "NaN";
-                try {
-                    if ((logScale && value < 0.01 && value > 1e-9) || (value !== 0 && Math.abs(value) < 0.001)) { return value.toExponential(fixedDigits); }
-                    if (Math.abs(value) < 1000000 || value === 0) { return value.toFixed(Math.max(0, fixedDigits)); }
-                    return value.toExponential(fixedDigits);
-                } catch { return "FmtErr"; }
+                 if (prefix === '10^' && exponent !== null && isFinite(exponent)) {
+                     return `10<sup>${exponent.toFixed(fixedDigits)}</sup>`;
+                 }
+                 if (typeof value !== 'number' || !isFinite(value)) return "NaN";
+                 try {
+                     if ((logScale && value < 0.01 && value > 1e-9) || (value !== 0 && Math.abs(value) < 0.001)) { return value.toExponential(fixedDigits); }
+                     if (Math.abs(value) < 1000000 || value === 0) { return value.toFixed(Math.max(0, fixedDigits)); }
+                     return value.toExponential(fixedDigits);
+                 } catch { return "FmtErr"; }
             };
 
             const updateDisplayAndTriggerCallback = () => {
                 if (!slider || !valueDisplay) return;
                 try {
                     calculateActualValue();
-                    let displayValText = formatDisplayValue(slider.actualValue);
-                    if(options.prefix) displayValText = options.prefix + displayValText;
+                    let displayValText;
+                    if(logScale && prefix === '10^'){
+                        const currentExponent = calculateLogExponent(parseFloat(slider.value));
+                        displayValText = formatDisplayValue(slider.actualValue, currentExponent);
+                    } else {
+                        displayValText = formatDisplayValue(slider.actualValue);
+                    }
                     if(unit) displayValText += unit;
-                    valueDisplay.textContent = displayValText;
+                    valueDisplay.innerHTML = displayValText; // Use innerHTML for superscript
                     if (typeof callback === 'function') callback();
                 } catch (e) { console.error(`Error updating slider ${sliderId}:`, e); valueDisplay.textContent = "Error"; }
             };
@@ -254,7 +270,7 @@
                 const minLog = Math.log10(safeMin); const maxLog = Math.log10(safeMax); const range = maxLog - minLog;
                 let initialSliderPos = 0;
                 if (isFinite(minLog) && isFinite(maxLog) && isFinite(range) && range > 0 && initialNumericValue > 0) {
-                    initialSliderPos = Math.round(((Math.log10(initialNumericValue) - minLog) / range) * 100);
+                     initialSliderPos = Math.round(((Math.log10(initialNumericValue) - minLog) / range) * 100);
                 }
                 slider.min = "0"; slider.max = "100"; slider.step = "1"; slider.value = initialSliderPos.toString();
             } else {
@@ -266,10 +282,15 @@
             }
             slider.oninput = updateDisplayAndTriggerCallback;
             calculateActualValue();
-            let initialDisplayValText = formatDisplayValue(slider.actualValue);
-             if(options.prefix) initialDisplayValText = options.prefix + initialDisplayValText;
+            let initialDisplayValText;
+             if(logScale && prefix === '10^'){
+                 const initialExponent = calculateLogExponent(parseFloat(slider.value));
+                 initialDisplayValText = formatDisplayValue(slider.actualValue, initialExponent);
+             } else {
+                 initialDisplayValText = formatDisplayValue(slider.actualValue);
+             }
              if(unit) initialDisplayValText += unit;
-            valueDisplay.textContent = initialDisplayValText;
+            valueDisplay.innerHTML = initialDisplayValText; // Use innerHTML for superscript
         };
 
         const setupPlotArea = (targetId, margin, isDirectSvg = false) => {
@@ -354,25 +375,54 @@
                 if (!tauSlider || typeof tauSlider.actualValue === 'undefined') throw new Error("Visco slider not found or not initialized.");
                 const tau = tauSlider.actualValue; if (typeof tau !== 'number' || !isFinite(tau) || tau <= 0) throw new Error(`Invalid tau value`);
                 const margin = {top: 20, right: 50, bottom: 40, left: 40}; const { g, dims } = setupPlotArea(plotSvgId, margin, true);
-                const logFreqMin = -4, logFreqMax = 4; const numPoints = 100; const G_inf = 100;
-                const plotData = d3.range(numPoints + 1).map(i => { const logOmegaTau = logFreqMin + (i / numPoints) * (logFreqMax - logFreqMin); const omegaTau = Math.pow(10, logOmegaTau); const denominator = 1 + omegaTau**2; const G_prime = G_inf * omegaTau**2 / denominator; const G_double_prime = G_inf * omegaTau / denominator; return { logOmegaTau, G_prime: isFinite(G_prime) ? G_prime : null, G_double_prime: isFinite(G_double_prime) ? G_double_prime : null }; }).filter(d => isFinite(d.logOmegaTau)); if (plotData.length < 2) throw new Error("Not enough valid data points.");
-                const xScale = d3.scaleLinear().domain([logFreqMin, logFreqMax]).range([0, dims.plotWidth]); const yMax = G_inf * 1.1; const yScale = d3.scaleLinear().domain([0, yMax]).range([dims.plotHeight, 0]).nice();
-                drawAxes(g, xScale, yScale, dims, margin, { x: "Log₁₀(ωτ)", y: "Modulus (mN/m)" });
-                const lineGen = (yAccessor) => d3.line().x(d => xScale(d.logOmegaTau)).y(d => yScale(d[yAccessor])).defined(d => d[yAccessor] !== null && isFinite(xScale(d.logOmegaTau)) && isFinite(yScale(d[yAccessor])));
+                const logOmegaMin = -4, logOmegaMax = 4; // Back to -4 to 4 range
+                const numPoints = 100; const G_inf = 100;
+                const plotData = d3.range(numPoints + 1).map(i => { const logOmega = logOmegaMin + (i / numPoints) * (logOmegaMax - logOmegaMin); const omega = Math.pow(10, logOmega); const omegaTau = omega * tau; const denominator = 1 + omegaTau**2; const G_prime = G_inf * omegaTau**2 / denominator; const G_double_prime = G_inf * omegaTau / denominator; return { logOmega, G_prime: isFinite(G_prime) ? G_prime : null, G_double_prime: isFinite(G_double_prime) ? G_double_prime : null }; }).filter(d => isFinite(d.logOmega)); if (plotData.length < 2) throw new Error("Not enough valid data points.");
+                const xScale = d3.scaleLinear().domain([logOmegaMin, logOmegaMax]).range([0, dims.plotWidth]); const yMax = G_inf * 1.1; const yScale = d3.scaleLinear().domain([0, yMax]).range([dims.plotHeight, 0]).nice();
+                drawAxes(g, xScale, yScale, dims, margin, { x: "Log₁₀(Frequency ω / Hz)", y: "Modulus (mN/m)", xTicks: 9 });
+                const lineGen = (yAccessor) => d3.line().x(d => xScale(d.logOmega)).y(d => yScale(d[yAccessor])).defined(d => d[yAccessor] !== null && isFinite(xScale(d.logOmega)) && isFinite(yScale(d[yAccessor])));
                 drawLine(g, plotData, lineGen('G_prime'), 'g-prime-line'); drawLine(g, plotData, lineGen('G_double_prime'), 'g-double-prime-line');
-                g.append("line").attr("x1", xScale(0)).attr("y1", 0).attr("x2", xScale(0)).attr("y2", dims.plotHeight).attr("stroke", "grey").attr("stroke-dasharray", "2 2"); g.append("text").attr("x", xScale(0)).attr("y", -5).text(`ωτ=1`).attr("font-size", "9px").attr("text-anchor", "middle");
+
+                const logCrossoverOmega = -Math.log10(tau);
+                const crossoverOmega = 1/tau;
+                const crossoverModulus = G_inf * (1*1) / (1 + 1*1);
+
+                 if(logCrossoverOmega >= logOmegaMin && logCrossoverOmega <= logOmegaMax){
+                    g.append("line")
+                        .attr("class", "crossover-line")
+                        .attr("x1", xScale(logCrossoverOmega))
+                        .attr("y1", 0)
+                        .attr("x2", xScale(logCrossoverOmega))
+                        .attr("y2", dims.plotHeight)
+                        .attr("stroke", "#dc2626")
+                        .attr("stroke-width", 0.5)
+                        .attr("stroke-dasharray", "3 3");
+
+                    g.append("circle")
+                         .attr("class", "crossover-marker")
+                         .attr("cx", xScale(logCrossoverOmega))
+                         .attr("cy", yScale(crossoverModulus))
+                         .attr("r", 4);
+
+                    g.append("text")
+                         .attr("class", "crossover-text")
+                         .attr("x", xScale(logCrossoverOmega))
+                         .attr("y", yScale(crossoverModulus) - 8)
+                         .text(`ω ≈ ${crossoverOmega.toPrecision(2)} Hz`);
+                 }
+
                 const legend = g.append("g").attr("transform", `translate(${dims.plotWidth + 10}, 10)`); legend.append("rect").attr("x", 0).attr("y", 0).attr("width", 10).attr("height", 2).attr("fill", "#059669"); legend.append("text").attr("x", 15).attr("y", 5).text("G'/E'").attr("class", "plot-svg legend-text"); legend.append("rect").attr("x", 0).attr("y", 15).attr("width", 10).attr("height", 2).attr("fill", "#ea580c"); legend.append("text").attr("x", 15).attr("y", 20).text("G''/E''").attr("class", "plot-svg legend-text");
 
                 const behaviorOutput = document.getElementById('visco-behavior-output');
                 if(behaviorOutput){
-                    const logOmegaTauNow = 0;
-                    const omegaTauNow = Math.pow(10, logOmegaTauNow);
-                    const gpNow = G_inf * omegaTauNow**2 / (1 + omegaTauNow**2);
-                    const gppNow = G_inf * omegaTauNow / (1 + omegaTauNow**2);
+                    const refOmega = 1.0;
+                    const refOmegaTau = refOmega * tau;
+                    const gpNow = G_inf * refOmegaTau**2 / (1 + refOmegaTau**2);
+                    const gppNow = G_inf * refOmegaTau / (1 + refOmegaTau**2);
                     let behavior = "Crossover";
                     if (gpNow > gppNow * 1.1) behavior = "Elastic Dominant";
                     else if (gppNow > gpNow * 1.1) behavior = "Viscous Dominant";
-                    behaviorOutput.textContent = `Behavior at ωτ=1: ${behavior}`;
+                    behaviorOutput.textContent = `Behavior at 1 Hz: ${behavior}`;
                 }
 
             } catch (error) { console.error(`Error rendering Visco Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
@@ -444,4 +494,6 @@
     </script>
 
 </body>
+</html>
+
 </html>
