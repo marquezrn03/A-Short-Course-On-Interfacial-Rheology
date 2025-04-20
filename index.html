@@ -375,7 +375,7 @@
                 if (!tauSlider || typeof tauSlider.actualValue === 'undefined') throw new Error("Visco slider not found or not initialized.");
                 const tau = tauSlider.actualValue; if (typeof tau !== 'number' || !isFinite(tau) || tau <= 0) throw new Error(`Invalid tau value`);
                 const margin = {top: 20, right: 50, bottom: 40, left: 40}; const { g, dims } = setupPlotArea(plotSvgId, margin, true);
-                const logOmegaMin = -4, logOmegaMax = 4; // Back to -4 to 4 range
+                const logOmegaMin = 0, logOmegaMax = 4; // Back to -4 to 4 range
                 const numPoints = 100; const G_inf = 100;
                 const plotData = d3.range(numPoints + 1).map(i => { const logOmega = logOmegaMin + (i / numPoints) * (logOmegaMax - logOmegaMin); const omega = Math.pow(10, logOmega); const omegaTau = omega * tau; const denominator = 1 + omegaTau**2; const G_prime = G_inf * omegaTau**2 / denominator; const G_double_prime = G_inf * omegaTau / denominator; return { logOmega, G_prime: isFinite(G_prime) ? G_prime : null, G_double_prime: isFinite(G_double_prime) ? G_double_prime : null }; }).filter(d => isFinite(d.logOmega)); if (plotData.length < 2) throw new Error("Not enough valid data points.");
                 const xScale = d3.scaleLinear().domain([logOmegaMin, logOmegaMax]).range([0, dims.plotWidth]); const yMax = G_inf * 1.1; const yScale = d3.scaleLinear().domain([0, yMax]).range([dims.plotHeight, 0]).nice();
