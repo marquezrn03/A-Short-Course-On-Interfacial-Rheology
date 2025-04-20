@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfacial Rheology - Page 4: Applications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* Lime-Green Theme Variables */
+        :root {
+            --bg-color-light: #f7fee7; /* lime-50 */
+            --bg-color-white: #ffffff;
+            --text-color-main: #3f6212; /* lime-800 */
+            --text-color-header: #1a2e05; /* lime-950 */
+            --text-color-accent: #4d7c0f; /* lime-700 */
+            --text-color-subtle: #65a30d; /* lime-600 */
+            --border-color-light: #ecfccb; /* lime-100 */
+            --border-color-medium: #d9f99d; /* lime-200 */
+            --border-color-dark: #bef264; /* lime-300 */
+            --accent-color: #a3e635; /* lime-400 */
+            --highlight-bg: #ecfccb; /* lime-100 */
+            --vis-bg-color: #f7fee7; /* lime-50 */
+            --vis-border-color: #d9f99d; /* lime-200 */
+            --header-grad-from: #84cc16; /* lime-500 */
+            --header-grad-to: #4d7c0f; /* lime-700 */
+            /* Plot Specific Colors */
+            --plot-axis-color: #4b5563; /* gray-600 */
+            --plot-grid-color: #e5e7eb; /* gray-200 */
+            --plot-text-color: #374151; /* gray-700 */
+            --plot-ift-color: #2563eb; /* blue-600 */
+            --plot-stability-color: #dc2626; /* red-600 */
+            --plot-modulus-color: #fb923c; /* orange-400 */
+            --plot-gprime-color: #059669; /* emerald-600 */
+            /* SVG Phase Colors */
+            --svg-water-color: #bfdbfe; /* blue-200 */
+            --svg-oil-color: #fef9c3; /* yellow-100 */
+            --svg-interface-color: var(--text-color-accent); /* lime-700 */
+        }
+        html { scroll-padding-top: 6rem; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: var(--text-color-main); background-color: var(--bg-color-light); font-size: 1rem; line-height: 1.7; }
+        main.container { padding-top: 1rem; padding-bottom: 1rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .dynamic-content { opacity: 0; animation: fadeIn 0.7s ease-out forwards; animation-delay: 0.1s; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-color-accent); font-size: 0.9rem; }
+        input[type="range"], select { width: 100%; padding: 0.5rem; border: 1px solid var(--border-color-medium); border-radius: 0.375rem; background-color: white; font-size: 0.9rem; transition: border-color 0.2s ease; }
+        input[type="range"]:focus, select:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--highlight-bg); }
+        input[type="range"] { cursor: pointer; accent-color: var(--accent-color); padding: 0; height: 0.5rem; appearance: none; background: var(--border-color-light); border-radius: 9999px; border: 1px solid var(--border-color-medium); }
+        input[type="range"]::-webkit-slider-thumb { appearance: none; width: 1rem; height: 1rem; background: var(--accent-color); border-radius: 50%; cursor: pointer; border: 1px solid var(--text-color-accent); }
+        input[type="range"]::-moz-range-thumb { width: 1rem; height: 1rem; background: var(--accent-color); border-radius: 50%; cursor: pointer; border: 1px solid var(--text-color-accent); }
+        button, .styled-button-link { background-color: var(--accent-color); color: var(--text-color-header); padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; transition: background-color 0.2s ease, transform 0.1s ease; border: none; cursor: pointer; display: inline-block; text-align: center; }
+        button:hover, .styled-button-link:hover { background-color: var(--border-color-dark); }
+        button:active, .styled-button-link:active { transform: scale(0.98); }
+        .output-box { background-color: var(--highlight-bg); border: 1px solid var(--border-color-medium); padding: 0.5rem 0.75rem; border-radius: 0.375rem; margin-top: 0.5rem; text-align: center; font-weight: 500; font-size: 0.85rem; color: var(--text-color-accent); min-height: 2.5rem; display: flex; align-items: center; justify-content: center; }
+        .interactive-container { background-color: #ffffff; border: 1px solid var(--border-color-light); padding: 1.5rem; border-radius: 0.5rem; margin-top: 1rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+        .visualization-box { min-height: 200px; background-color: var(--vis-bg-color); border: 1px dashed var(--vis-border-color); border-radius: 0.375rem; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; margin-top: 1rem; text-align: center; position: relative; overflow: hidden; transition: background-color 0.3s ease; font-size: 0.9rem; }
+        .visualization-box svg { display: block; margin: auto; max-width: 100%; height: auto; }
+        h1, h2, h3, h4 { color: var(--text-color-header); font-weight: 700; line-height: 1.3; }
+        h1 { font-size: 2.25rem; }
+        h2 { font-size: 1.75rem; border-bottom: 2px solid var(--border-color-dark); padding-bottom: 0.5rem; margin-bottom: 1.5rem; margin-top: 2rem; }
+        h3 { font-size: 1.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h4 { font-size: 1.1rem; margin-top: 1.25rem; margin-bottom: 0.5rem; color: var(--text-color-accent); }
+        p, li { color: var(--text-color-main); margin-bottom: 1.25rem; font-size: 0.95rem; text-align: justify; }
+        ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+        strong { color: var(--text-color-accent); font-weight: 600; }
+        blockquote { border-left: 4px solid var(--accent-color); padding: 0.75rem 1rem; margin: 1.5rem 0; font-style: italic; color: var(--text-color-subtle); background-color: var(--highlight-bg); font-size: 0.95rem; }
+        .section-bg-white { background-color: var(--bg-color-white); }
+        .section-bg-light { background-color: var(--bg-color-light); }
+        .equation { display: block; text-align: center; margin: 1.25rem auto; font-size: 1.1rem; }
+        .key-concept { border: 1px solid var(--border-color-medium); background-color: var(--vis-bg-color); padding: 1rem; border-radius: 0.375rem; margin: 1.5rem 0; }
+        .key-concept strong { color: var(--text-color-header); }
+        figure { margin: 1.5rem auto; text-align: center; }
+        figure svg { max-width: 100%; height: auto; border: 1px solid var(--border-color-medium); border-radius: 0.375rem; margin: 0 auto 0.5rem auto; display: block; background-color: var(--bg-color-white); }
+        figcaption, .caption { font-size: 0.8rem; color: var(--text-color-subtle); margin-top: 0.25rem; text-align: center; }
+        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color-medium); }
+        footer p { font-size: 0.8rem; line-height: 1.5; text-align: center; color: var(--text-color-main);}
+        footer a { color: var(--text-color-subtle); text-decoration: underline; }
+        footer a:hover { color: var(--text-color-header); }
+        .instructional-text { font-size: 0.875rem; color: var(--text-color-subtle); margin-top: 0.5rem; margin-bottom: 1rem; text-align: center; }
+        .approximation-note { font-size: 0.75rem; color: #ef4444; text-align: center; margin-top: 0.5rem; font-style: italic; }
+        .d3-plot .axis path, .d3-plot .axis line { fill: none; stroke: var(--plot-axis-color); shape-rendering: crispEdges; stroke-width: 1px; }
+        .d3-plot .axis text { font-size: 0.75rem; fill: var(--plot-text-color); font-family: sans-serif;}
+        .d3-plot .grid line { stroke: var(--plot-grid-color); stroke-opacity: 0.7; shape-rendering: crispEdges; }
+        .d3-plot .grid path { stroke-width: 0; }
+        .d3-plot .line { fill: none; stroke-width: 2px; }
+        .d3-plot path { fill: none; }
+        .plot-label { font-size: 0.75rem; fill: var(--plot-text-color); text-anchor: middle; font-family: sans-serif;}
+        /* Specific Plot Line Colors */
+        .d3-plot .ift-line { stroke: var(--plot-ift-color); }
+        .d3-plot .stability-line { stroke: var(--plot-stability-color); }
+        .d3-plot .modulus-line { stroke: var(--plot-modulus-color); stroke-dasharray: 4 2; }
+        .d3-plot .gprime-time-line { stroke: var(--plot-gprime-color); }
+        /* SVG Phase Colors */
+        .liquid-fill { fill: var(--svg-water-color); }
+        .oil-fill { fill: var(--svg-oil-color); }
+        .interface-line { stroke: var(--svg-interface-color); stroke-width: 1.5px; }
+        .film-drainage-svg .droplet { transition: cy 0.5s ease-out; fill: var(--svg-oil-color); stroke: var(--svg-interface-color); }
+        .film-drainage-svg .bulk { fill: var(--svg-water-color); opacity: 0.3; }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header class="bg-gradient-to-r from-[var(--header-grad-from)] to-[var(--header-grad-to)] text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl md:text-3xl font-bold">Interfacial Rheology</h1>
+             <p class="text-lg font-semibold mt-1">Page 4: Applications</p>
+             <p class="text-xs mt-2 opacity-90">Based on Marquez & Salager, Colloids Interfaces 2025, 9, 14. <a href="https://doi.org/10.3390/colloids9010014" target="_blank" rel="noopener" class="text-lime-200 hover:text-white underline">[DOI]</a></p>
+             <nav class="mt-3 text-sm md:text-base">
+                <a href="https://marquezrn03.github.io/A-Short-Course-On-Interfacial-Rheology/" class="hover:text-lime-100 mr-4">Fundamentals</a>
+                <a href="Chap2.html" class="hover:text-lime-100 mr-4">Shear Instruments</a>
+                <a href="Chap3.html" class="hover:text-lime-100 mr-4">Dilational Instruments</a>
+                <a href="#page4" class="font-semibold border-b-2 border-lime-300 pb-1 mr-4">Applications</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="page4" class="container mx-auto px-6 py-2">
+
+        <section id="app-intro" class="mb-12 pt-4 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold">1. Applications: Why Interfacial Rheology Matters</h2>
+            <p>Understanding the viscoelastic properties of interfaces (\(G^*\) and \(E^*\)) is not merely an academic exercise. These properties directly govern the formation, stability, and processing of numerous systems critical to industry and nature, particularly emulsions and foams. This section explores key application areas where interfacial rheology provides crucial insights [cite: Section 5].</p>
+        </section>
+
+        <section id="emulsion-foam" class="mb-12 pt-4 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold">2. Emulsion and Foam Stability</h2>
+            <p>The stability of dispersed systems like emulsions (liquid-liquid) and foams (gas-liquid) against coalescence or Ostwald ripening depends critically on the properties of the thin liquid films separating the droplets or bubbles.</p>
+            <ul class="list-disc list-inside space-y-1 pl-4 mb-4">
+                <li><strong>Film Drainage:</strong> Interfacial rheology significantly impacts the rate at which the continuous phase drains from the thin film between approaching droplets/bubbles. High interfacial shear viscosity (\(\eta_s = G''/\omega\)) can retard drainage by immobilizing the interface. High dilational elasticity (\(E'\)), primarily via the Gibbs-Marangoni effect, creates restoring forces that oppose film thinning when local concentration gradients arise due to drainage [cite: 76, 455, 478, 513].</li>
+                <li><strong>Resistance to Rupture:</strong> A viscoelastic interface (high \(G'\) and/or \(E'\)) can better withstand mechanical perturbations or capillary pressure fluctuations that might otherwise lead to film rupture and coalescence.</li>
+            </ul>
+
+             <div class="interactive-container mt-4 section-bg-white">
+                 <h4 class="text-lg font-semibold mb-2 text-center">Conceptual Film Drainage</h4>
+                 <p class="instructional-text text-center">Adjust conceptual interfacial properties to see how they might influence the time it takes for the film between two approaching droplets to thin (leading to coalescence). Higher elasticity/viscosity generally slows drainage.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 mb-4">
+                     <div>
+                         <label for="film-elasticity-slider">Interfacial Elasticity (E' / G'):</label>
+                         <input type="range" id="film-elasticity-slider" name="film-elasticity-slider" min="1" max="100" value="20" step="1">
+                         <div class="output-box"><span id="film-elasticity-value">20</span> mN/m</div>
+                     </div>
+                     <div>
+                         <label for="film-viscosity-slider">Interfacial Viscosity (η<sub>s</sub> / η<sub>E</sub>):</label>
+                         <input type="range" id="film-viscosity-slider" name="film-viscosity-slider" min="0.01" max="10" value="1" step="0.01">
+                         <div class="output-box"><span id="film-viscosity-value">1.00</span> mN·s/m</div>
+                     </div>
+                 </div>
+                 <div class="visualization-box h-48">
+                     <svg id="film-drainage-svg" viewBox="0 0 200 100" class="film-drainage-svg w-full h-full">
+                         <title>Conceptual Film Drainage</title>
+                         <rect x="0" y="0" width="200" height="100" class="bulk" fill="var(--svg-water-color)" opacity="0.3"/>
+                         <circle id="droplet1" cx="100" cy="25" r="20" class="droplet" fill="var(--svg-oil-color)" stroke="var(--svg-interface-color)"/>
+                         <circle id="droplet2" cx="100" cy="75" r="20" class="droplet" fill="var(--svg-oil-color)" stroke="var(--svg-interface-color)"/>
+                         <text id="drainage-time-text" x="100" y="55" font-size="8" text-anchor="middle" fill="var(--text-color-accent)">Relative Drainage Time: Medium</text>
+                     </svg>
+                 </div>
+                  <p class="text-xs text-center text-gray-500 mt-2">Note: Highly conceptual animation. Real drainage involves complex hydrodynamics, disjoining pressure, etc.</p>
+             </div>
+
+            <h3 class="text-xl font-semibold mt-6 mb-2">The HLD=0 Paradox: Minimum Tension, Minimum Stability</h3>
+            <p>A key concept in surfactant formulation is achieving ultra-low interfacial tension (\(\gamma \approx 10^{-3}\) mN/m) at "optimum formulation" (often characterized by HLD=0, Hydrophilic-Lipophilic Deviation). While low \(\gamma\) thermodynamically favors emulsification, emulsions formed exactly at optimum are often kinetically unstable.</p>
+            <p>Interfacial rheology explains this: At HLD=0, surfactant partitioning between phases is balanced, allowing extremely rapid adsorption/desorption kinetics. Any local tension gradients created during film drainage are almost instantly dissipated by surfactant transport, leading to a near-zero dilational modulus (\(E^* \approx 0\)). Without the stabilizing Marangoni effect provided by \(E'\), films drain and rupture very quickly, causing rapid coalescence despite the ultra-low \(\gamma\) [cite: 467-489]. Maximum stability often occurs slightly off-optimum, where \(\gamma\) is still low but \(E^*\) is significant.</p>
+            <figure class="my-4">
+                 <svg id="fig9-hld-summary-app" width="500" height="300" viewBox="0 0 500 300" aria-labelledby="fig9-app-title">
+                     <title id="fig9-app-title">Properties vs HLD (Conceptual)</title>
+                     <g transform="translate(50, 30)">
+                         <defs><clipPath id="clip-app"><rect width="400" height="220"></rect></clipPath></defs>
+                         <line x1="0" y1="220" x2="400" y2="220" stroke="var(--plot-axis-color)" />
+                         <line x1="200" y1="0" x2="200" y2="220" stroke="var(--plot-axis-color)" stroke-dasharray="4 2" />
+                         <text x="200" y="235" text-anchor="middle" font-size="12" fill="var(--plot-text-color)">HLD=0</text>
+                         <text x="50" y="235" text-anchor="middle" font-size="12" fill="var(--plot-text-color)">HLD < 0 (O/W pref.)</text>
+                         <text x="350" y="235" text-anchor="middle" font-size="12" fill="var(--plot-text-color)">HLD > 0 (W/O pref.)</text>
+                         <text x="405" y="225" font-size="12" fill="var(--plot-text-color)">Formulation (e.g., Salinity, EACN)</text>
+                         <text x="-35" y="110" font-size="12" fill="var(--plot-text-color)" transform="rotate(-90 -35 110)">Property Value</text>
+                         <path d="M 0 50 C 100 50, 150 180, 200 180 S 300 50, 400 50" stroke="var(--plot-ift-color)" fill="none" stroke-width="2" clip-path="url(#clip-app)" />
+                         <text x="180" y="175" fill="var(--plot-ift-color)" font-size="12">IFT ($\gamma$) Min</text>
+                         <path d="M 0 100 C 100 100, 150 210, 200 210 S 300 100, 400 100" stroke="var(--plot-stability-color)" fill="none" stroke-width="2" clip-path="url(#clip-app)" />
+                         <text x="30" y="120" fill="var(--plot-stability-color)" font-size="12">Stability Max</text>
+                         <text x="180" y="205" fill="var(--plot-stability-color)" font-size="12">Min</text>
+                         <path d="M 0 80 C 100 80, 150 190, 200 190 S 300 80, 400 80" stroke="var(--plot-modulus-color)" fill="none" stroke-width="2" stroke-dasharray="5 3" clip-path="url(#clip-app)" />
+                         <text x="300" y="70" fill="var(--plot-modulus-color)" font-size="12">Modulus ($E^*$) Min</text>
+                     </g>
+                 </svg>
+                 <figcaption class="caption">Figure 9: Conceptual schematic showing minima in \(\gamma\), stability, and \(E^*\) near HLD=0.</figcaption>
+             </figure>
+        </section>
+
+        <section id="eor" class="mb-12 pt-4 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold">3. Enhanced Oil Recovery (EOR)</h2>
+            <p>In EOR, the goal is often to mobilize residual oil trapped in porous reservoir rock by capillary forces. Injecting surfactant solutions formulated to achieve ultra-low \(\gamma\) at reservoir conditions (i.e., near HLD=0) significantly reduces these capillary forces (increases Capillary number, \(N_{ca} = \eta v / \gamma\)). Interfacial rheology plays a role alongside IFT; low interfacial viscoelasticity (\(E^*, G^*\)) is generally thought to facilitate oil droplet deformation and passage through narrow pore throats [cite: 176-181, 499-504]. OSDIR is crucial for characterizing these ultra-low tension systems.</p>
+        </section>
+
+        <section id="asphaltenes" class="mb-12 pt-4 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold">4. Asphaltenes and Crude Oil Emulsions</h2>
+            <p>Asphaltenes, complex polyaromatic components of crude oil, readily adsorb at oil-water interfaces, forming rigid, viscoelastic films. These films are primary stabilizers of problematic water-in-crude oil emulsions encountered during oil production and transport. Interfacial shear rheology (\(G^*\)) is particularly useful for characterizing these films.</p>
+            <p>A key feature is **aging**: the interfacial moduli (\(G'\), \(G''\)) often increase significantly over time (minutes to hours) as more asphaltenes adsorb and rearrange into a robust network structure at the interface. This aging process strengthens the film, making the emulsion more stable and harder to break [cite: 139, 140, 142, 532-538]. Factors like asphaltene concentration, solvent aromaticity (polarity), temperature, water salinity, and pH strongly influence the kinetics and final properties of these films [cite: 541-556]. Understanding this behavior is vital for designing effective demulsification strategies.</p>
+
+             <div class="interactive-container mt-4 section-bg-white">
+                 <h4 class="text-lg font-semibold mb-2 text-center">Conceptual Film Aging (G' vs. Time)</h4>
+                 <p class="instructional-text text-center">Select a conceptual film type to visualize how the elastic shear modulus (\(G'\)) might increase over time due to adsorption and network formation/consolidation.</p>
+                 <div class="mb-4 px-4">
+                     <label for="aging-film-type-select" class="text-sm text-center block mb-1">Select Film Type:</label>
+                     <select id="aging-film-type-select">
+                         <option value="soluble" selected>Soluble Surfactant (Fast Equilibration)</option>
+                         <option value="insoluble">Network Forming / Aging (e.g., Asphaltene)</option>
+                     </select>
+                 </div>
+                 <div id="g-prime-aging-plot-container" class="plot-container">
+                     <svg id="g-prime-aging-plot-svg" class="plot-svg bg-white rounded border border-lime-200" width="400" height="250"></svg>
+                 </div>
+                 <p class="text-xs text-center text-gray-500 mt-2">Note: Idealized behavior. Real aging kinetics are complex.</p>
+             </div>
+        </section>
+
+        <section class="mt-12 text-center">
+             <a href="Chap3.html" class="styled-button-link">← Previous: Dilational Instruments</a>
+             </section>
+
+    </main>
+
+     <footer class="mt-16 pt-8 pb-8 border-t border-lime-200 text-sm text-lime-700">
+        <p class="text-center">
+            Source: Marquez, R.; Salager, J.-L. Measurement Techniques for Interfacial Rheology...
+            <em>Colloids Interfaces</em> 2025, <em>9</em>(1), 14.
+            DOI: <a href="https://doi.org/10.3390/colloids9010014" target="_blank" rel="noopener" class="text-lime-600 hover:text-lime-800">https://doi.org/10.3390/colloids9010014</a>
+        </p>
+         <p class="mt-4 text-center text-xs text-lime-600">PhD Course Module - University of Girona</p>
+    </footer>
+
+    <script>
+         const setupSlider = (sliderId, valueId, options = {}) => {
+             const slider = document.getElementById(sliderId);
+             const valueDisplay = document.getElementById(valueId);
+             if (!slider || !valueDisplay) { console.warn(`Slider setup failed: Elements not found for ${sliderId} or ${valueId}`); return; }
+             const { fixedDigits = 1, logScale = false, callback = null } = options;
+             const minAttr = parseFloat(slider.min); const maxAttr = parseFloat(slider.max);
+             let safeMin = isNaN(minAttr) ? (logScale ? 1e-6 : 0) : (logScale ? Math.max(1e-9, minAttr) : minAttr);
+             let safeMax = isNaN(maxAttr) ? safeMin * (logScale ? 1000 : 100) : (logScale ? Math.max(safeMin * 1.1, maxAttr) : Math.max(safeMin + 1e-9, maxAttr));
+             if (safeMax <= safeMin) { safeMax = safeMin * (logScale ? 10 : 2); if (safeMax <= safeMin) safeMax = safeMin + 1; }
+             slider.logMinVal = safeMin; slider.logMaxVal = safeMax;
+
+             function calculateActualValue() {
+                 const rawValue = parseFloat(slider.value);
+                 if (isNaN(rawValue)) { slider.actualValue = logScale ? slider.logMinVal : safeMin; return; }
+                 if (logScale) {
+                     const minLog = Math.log10(slider.logMinVal); const maxLog = Math.log10(slider.logMaxVal); const range = maxLog - minLog;
+                     const sliderMinInternal = 0; const sliderMaxInternal = 100; const sliderRangeInternal = sliderMaxInternal - sliderMinInternal;
+                     if (sliderRangeInternal <= 0 || !isFinite(range) || range <= 0) { slider.actualValue = slider.logMinVal; return; }
+                     const normalizedSliderValue = Math.max(0, Math.min(1, (rawValue - sliderMinInternal) / sliderRangeInternal));
+                     slider.actualValue = Math.pow(10, minLog + normalizedSliderValue * range);
+                 } else { slider.actualValue = rawValue; }
+                 if (!isFinite(slider.actualValue)) { slider.actualValue = logScale ? slider.logMinVal : safeMin; }
+                 slider.actualValue = Math.max(safeMin, Math.min(safeMax, slider.actualValue));
+             }
+
+             function updateDisplayAndTriggerCallback() {
+                 const currentSlider = document.getElementById(sliderId); const currentValueDisplay = document.getElementById(valueId);
+                 if (!currentSlider || !currentValueDisplay) return;
+                 try {
+                     calculateActualValue(); const valToFormat = slider.actualValue; let displayVal;
+                     if (typeof valToFormat !== 'number' || !isFinite(valToFormat)) { displayVal = "NaN"; }
+                     else if (logScale && Math.abs(valToFormat) > 1e-9 && Math.abs(valToFormat) < 0.01) { displayVal = valToFormat.toExponential(fixedDigits); }
+                     else if (Math.abs(valToFormat) < 1 && fixedDigits > 0 && Math.abs(valToFormat) > 1e-12) { const numDigits = Math.max(fixedDigits, Math.ceil(-Math.log10(Math.abs(valToFormat))) + 1); displayVal = valToFormat.toFixed(Math.min(numDigits, 6)); }
+                     else if (Math.abs(valToFormat) < 1000000 || valToFormat === 0) { displayVal = valToFormat.toFixed(Math.max(0, fixedDigits)); }
+                     else { displayVal = valToFormat.toExponential(fixedDigits); }
+                     currentValueDisplay.textContent = displayVal;
+                     if (typeof callback === 'function') { callback(); }
+                 } catch (e) { console.error("Error updating slider display/callback for", sliderId, e); currentValueDisplay.textContent = "Error"; }
+             }
+
+             const initialValueAttr = slider.getAttribute('value'); let initialActualValue = initialValueAttr ? parseFloat(initialValueAttr) : (logScale ? slider.logMinVal : safeMin);
+             initialActualValue = Math.max(safeMin, Math.min(safeMax, initialActualValue)); if (!isFinite(initialActualValue)) { initialActualValue = logScale ? slider.logMinVal : safeMin; }
+             if (logScale) {
+                 const minLog = Math.log10(slider.logMinVal); const maxLog = Math.log10(slider.logMaxVal); const range = maxLog - minLog; let initialSliderPos = 0;
+                 if (range > 0 && initialActualValue > 0 && isFinite(range)) { const valueLog = Math.log10(initialActualValue); initialSliderPos = Math.round(((valueLog - minLog) / range) * 100); }
+                 slider.min = "0"; slider.max = "100"; slider.step = "1"; slider.value = initialSliderPos.toString();
+             } else {
+                 slider.min = safeMin.toString(); slider.max = safeMax.toString(); const range = safeMax - safeMin; let step = (range / 100);
+                 if (range > 0) { const magnitude = Math.pow(10, Math.floor(Math.log10(step))); step = Math.max(1e-6, magnitude / 10); } else { step = 1e-6; }
+                 slider.step = step.toExponential(1); slider.value = initialActualValue.toString();
+             }
+             slider.oninput = updateDisplayAndTriggerCallback; calculateActualValue(); updateDisplayAndTriggerCallback();
+         }
+
+         function setupPlotArea(targetId, margin, isDirectSvg = false) {
+             let svg, g, containerWidth, containerHeight;
+             if (isDirectSvg) {
+                 svg = d3.select(`#${targetId}`); if (svg.empty()) throw new Error(`Target SVG #${targetId} not found.`);
+                 containerWidth = parseFloat(svg.attr("width")) || 400; containerHeight = parseFloat(svg.attr("height")) || 200;
+                 svg.selectAll("g").remove(); g = svg.append("g").attr("id", `${targetId}-plot-group`).attr("class", "d3-plot");
+             } else {
+                 const plotDiv = document.getElementById(targetId); if (!plotDiv) throw new Error(`Plot container #${targetId} not found.`);
+                 containerWidth = plotDiv.clientWidth || 400; containerHeight = plotDiv.clientHeight || 250; // Fallback dimensions
+                 if (!containerWidth || !containerHeight || containerWidth <= 0 || containerHeight <= 0) { console.warn(`Plot container #${targetId} has zero dimensions, using fallback.`); containerWidth = containerWidth || 400; containerHeight = containerHeight || 250; }
+                 svg = d3.select(plotDiv).select("svg"); if (svg.empty()) svg = d3.select(plotDiv).append("svg");
+                 svg.attr("width", "100%").attr("height", "100%").attr("viewBox", `0 0 ${containerWidth} ${containerHeight}`).attr("preserveAspectRatio", "xMidYMid meet");
+                 svg.selectAll("*").remove(); g = svg.append("g").attr("class", "d3-plot");
+             }
+             g.attr("transform", `translate(${margin.left},${margin.top})`);
+             const plotWidth = containerWidth - margin.left - margin.right; const plotHeight = containerHeight - margin.top - margin.bottom; if (plotWidth <= 0 || plotHeight <= 0) throw new Error(`Plot area for #${targetId} invalid.`);
+             return { g, dims: { containerWidth, containerHeight, plotWidth, plotHeight } };
+         }
+
+         function drawAxes(g, xScale, yScale, dims, margin, labels) {
+             g.append("g").attr("class", "x axis").attr("transform", `translate(0,${dims.plotHeight})`).call(d3.axisBottom(xScale).ticks(labels.xTicks || 5).tickFormat(labels.xFormat || d3.format(".1f")));
+             g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight + margin.bottom - (labels.xOffset || 5)).text(labels.x || "X Axis").attr("class", "plot-svg axis-label");
+             g.append("g").attr("class", "y axis").call(d3.axisLeft(yScale).ticks(labels.yTicks || 5).tickFormat(labels.yFormat || d3.format(".1f")));
+             g.append("text").attr("transform", "rotate(-90)").attr("y", -margin.left + (labels.yOffset || 15)).attr("x", -dims.plotHeight / 2).text(labels.y || "Y Axis").attr("class", "plot-svg axis-label");
+         }
+
+         function drawLine(g, plotData, lineGenerator, cssClass) { g.append("path").datum(plotData).attr("class", `line ${cssClass} d3-plot`).attr("d", lineGenerator); }
+
+         function displayPlotError(targetId, message = "Error rendering plot.", isDirectSvg = false) {
+             try { const margin = { top: 10, right: 10, bottom: 10, left: 10 }; const { g, dims } = setupPlotArea(targetId, margin, isDirectSvg); g.append("text").attr("x", dims.plotWidth / 2).attr("y", dims.plotHeight / 2).text(message).style("font-size", "10px").attr("fill", "red").attr("text-anchor", "middle"); } catch (e) { const targetElement = document.getElementById(targetId); if (targetElement) { targetElement.innerHTML = `<p style="color: red; font-size: 10px; text-align: center;">${message}</p>`; } }
+         }
+
+        function updateFilmDrainage() {
+            const elasticitySlider = document.getElementById('film-elasticity-slider');
+            const viscositySlider = document.getElementById('film-viscosity-slider');
+            const droplet1 = d3.select("#droplet1");
+            const droplet2 = d3.select("#droplet2");
+            const timeText = d3.select("#drainage-time-text");
+
+            if (!elasticitySlider || !viscositySlider || droplet1.empty() || droplet2.empty() || timeText.empty() || typeof elasticitySlider.actualValue === 'undefined' || typeof viscositySlider.actualValue === 'undefined') {
+                console.warn("Film drainage elements not found or sliders not initialized.");
+                return;
+            }
+
+            const E_prime = elasticitySlider.actualValue;
+            const eta_s = viscositySlider.actualValue;
+
+            // Conceptual model: Higher E' and eta_s lead to slower drainage (larger gap)
+            const baseSeparation = 10; // Minimum pixel separation
+            const maxAddedSeparation = 40;
+            // Combine effects (higher value means more resistance -> larger separation)
+            // Using log scale for viscosity effect might be more realistic conceptually
+            const resistanceFactor = Math.log10(E_prime + 1) + Math.log10(eta_s * 10 + 1); // Arbitrary combination
+            const maxResistanceFactor = Math.log10(100 + 1) + Math.log10(10 * 10 + 1); // Approx max value
+            const normalizedResistance = Math.min(1, Math.max(0, resistanceFactor / maxResistanceFactor));
+
+            const currentSeparation = baseSeparation + normalizedResistance * maxAddedSeparation;
+            const dropletRadius = 20;
+            const svgCenterY = 50;
+
+            droplet1.transition().duration(300).attr("cy", svgCenterY - dropletRadius - currentSeparation / 2);
+            droplet2.transition().duration(300).attr("cy", svgCenterY + dropletRadius + currentSeparation / 2);
+
+            let timeDesc = "Medium";
+            if (normalizedResistance > 0.7) timeDesc = "Slow";
+            else if (normalizedResistance < 0.3) timeDesc = "Fast";
+            timeText.text(`Relative Drainage Time: ${timeDesc}`);
+        }
+
+
+        function renderGPrimeVsTimePlot() {
+            const plotSvgId = "g-prime-aging-plot-svg";
+             try {
+                 const selectElement = document.getElementById('aging-film-type-select');
+                 if (!selectElement) throw new Error("Film type select element not found.");
+                 const filmType = selectElement.value;
+
+                 const margin = {top: 10, right: 10, bottom: 40, left: 40};
+                 const { g, dims } = setupPlotArea(plotSvgId, margin, true);
+
+                 const logTimeMin = 0, logTimeMax = 5; // Log10(seconds), 1s to ~28 hours
+                 const numPoints = 100;
+
+                 const getGPrimeData = (type) => {
+                     return d3.range(numPoints + 1).map(i => {
+                         const logTime = logTimeMin + (i / numPoints) * (logTimeMax - logTimeMin);
+                         const time = Math.pow(10, logTime);
+                         let G_prime;
+
+                         switch(type) {
+                             case 'soluble': // Faster rise to plateau
+                                 const G_max_sol = 20; const k_sol = 0.01;
+                                 G_prime = G_max_sol * (1 - Math.exp(-k_sol * time));
+                                 break;
+                             case 'insoluble': // Slower rise + aging term
+                             default:
+                                 const G_max_insol = 15; const k_insol = 0.0005; // Slower initial rate
+                                 const aging_slope = 5; // Slow increase on log time scale
+                                 const t0 = 60; // Onset of aging term (e.g., 1 minute)
+                                 G_prime = G_max_insol * (1 - Math.exp(-k_insol * time)) + aging_slope * Math.log10(Math.max(1, time/t0));
+                                 break;
+                         }
+                         return { logTime, G_prime: isFinite(G_prime) ? Math.max(0.01, G_prime) : 0.01 }; // Ensure positive for log scale
+                     }).filter(d => isFinite(d.logTime));
+                 };
+
+                 const plotData = getGPrimeData(filmType);
+                 if (plotData.length < 2) throw new Error("Not enough valid data points for G' vs time.");
+
+                 const maxGPrime = d3.max(plotData, d => d.G_prime || 0);
+                 const yMax = Math.max(1, maxGPrime * 1.2);
+                 const yMin = 0.01;
+
+                 const xScale = d3.scaleLinear().domain([logTimeMin, logTimeMax]).range([0, dims.plotWidth]);
+                 const yScale = d3.scaleLog().domain([yMin, yMax]).range([dims.plotHeight, 0]).nice(); // Log G' scale
+
+                 drawAxes(g, xScale, yScale, dims, margin, {
+                     x: "Log₁₀(Time / s)",
+                     y: "G' (mN/m)",
+                     yFormat: d3.format(".1e"),
+                     xTicks: 6,
+                     yTicks: 4
+                 });
+
+                 const lineGen = d3.line()
+                     .x(d => xScale(d.logTime))
+                     .y(d => yScale(d.G_prime))
+                     .defined(d => d.G_prime >= yMin && isFinite(xScale(d.logTime)) && isFinite(yScale(d.G_prime)));
+
+                 drawLine(g, plotData, lineGen, 'gprime-time-line');
+
+             } catch (error) { console.error(`Error rendering G' vs Time Plot:`, error); displayPlotError(plotSvgId, `Plot Error`, true); }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined' && MathJax.startup) {
+                MathJax.startup.promise.then(() => { console.log('MathJax ready for Page 4'); MathJax.typesetPromise(); });
+            }
+
+            setupSlider('film-elasticity-slider', 'film-elasticity-value', { fixedDigits: 0, callback: updateFilmDrainage, unit: ' mN/m' });
+            setupSlider('film-viscosity-slider', 'film-viscosity-value', { fixedDigits: 2, callback: updateFilmDrainage, unit: ' mN·s/m' });
+
+            const filmTypeSelect = document.getElementById('aging-film-type-select');
+             if (filmTypeSelect) {
+                 filmTypeSelect.addEventListener('change', renderGPrimeVsTimePlot);
+             }
+
+            updateFilmDrainage(); // Initial state
+            renderGPrimeVsTimePlot(); // Initial render for the new app
+        });
+    </script>
+
+</body>
+</html>
