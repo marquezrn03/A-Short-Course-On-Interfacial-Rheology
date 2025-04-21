@@ -11,6 +11,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- Add these rules --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dynamic-content {
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 0.7s ease-out forwards; /* Apply the animation */
+    animation-delay: 0.1s; /* Optional: wait a bit before starting */
+}
+/* --- End of rules to add --- */
         html { scroll-padding-top: 6rem; scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
         mjx-container { text-align: left !important; margin: 0.5rem 0; }
@@ -77,13 +89,13 @@
     <main id="page2" class="container mx-auto px-6 py-8">
 
         <section id="shear-intro" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">1. Shear Interfacial Rheology Methods: Introduction</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">1. Shear Interfacial Rheology Methods: Introduction</h2>
             <p class="text-gray-700 leading-relaxed mb-4">Shear interfacial rheology methods measure the response of an interface to tangential stress while maintaining a constant interfacial area. These techniques primarily probe the complex shear modulus, \(G^* = G' + iG''\), providing insights into the interface's elastic (\(G'\)) and viscous (\(G''\)) properties under shear deformation. This is distinct from dilational rheology, which involves changes in area.</p>
             <p class="text-gray-700 leading-relaxed mb-4">Common instruments rely on creating a controlled shear flow at the interface using geometries like rotating disks, rings (bicone, double-wall ring), channels, or magnetically driven probes. The measured torque or force required to maintain the flow or oscillation allows calculation of \(G^*\).</p>
              </section>
 
         <section id="deep-channel" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">2. Deep Channel Viscometers</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">2. Deep Channel Viscometers</h2>
             <p class="text-gray-700 leading-relaxed mb-4">This technique measures interfacial shear viscosity by analyzing the velocity profile of a liquid flowing in a deep, narrow channel, often annular, with the interface exposed at the top. The presence of an interfacial layer possessing shear viscosity alters the flow profile near the interface compared to that of a clean interface. Typically, the channel base rotates (\(\omega_0\)), inducing flow, and tracer particles placed on the interface are monitored (e.g., optically) to determine the surface velocity distribution, from which the interfacial shear viscosity can be inferred [cite: 73, 185-191].</p>
              <figure class="my-4">
                  <svg width="350" height="250" viewBox="0 0 200 150">
@@ -127,7 +139,7 @@
         </section>
 
         <section id="disk-rheometer" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">3. Interfacial Disk Rheometers (Bicone)</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">3. Interfacial Disk Rheometers (Bicone)</h2>
             <p class="text-gray-700 leading-relaxed mb-4">These instruments employ a rotating disk or, more commonly, a biconical disk (bicone) geometry positioned precisely at the fluid interface (liquid-liquid or gas-liquid). The bicone is attached to the drive shaft of a rotational rheometer. It rotates or oscillates, imparting a defined shear strain onto the interfacial layer. The rheometer measures the torque required to maintain this motion, allowing for the calculation of the complex shear modulus (\(G^*\)) and its components (\(G', G''\)) through standard rheological analysis software [cite: 76, 103, 104, 205-223].</p>
              <figure class="my-4">
                   <svg width="400" height="300" viewBox="-10 -10 220 170">
@@ -171,7 +183,7 @@
         </section>
 
          <section id="ring-viscometer" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">4. Interfacial Ring Viscometers</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">4. Interfacial Ring Viscometers</h2>
             <p class="text-gray-700 leading-relaxed mb-4">These methods use a thin ring placed horizontally at the interface. Shear is applied by rotating or oscillating the ring, and the required force or torque is measured.</p>
             <p class="text-gray-700 leading-relaxed mb-4">While simple oscillating rings exist, a significant improvement is the <strong class="font-semibold text-gray-800">Double-Wall Ring (DWR)</strong> geometry [cite: 77, 106-109]. The DWR features concentric walls that sit precisely at the interface, shearing the interfacial layer confined between them. This design minimizes disturbance to the bulk phases and reduces inertial effects, offering high sensitivity.</p>
             <figure class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
@@ -240,7 +252,7 @@
          </section>
 
         <section id="isr-rheometer" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">5. Magnetic Rod Interfacial Stress Rheometer (ISR)</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">5. Magnetic Rod Interfacial Stress Rheometer (ISR)</h2>
             <p class="text-gray-700 leading-relaxed mb-4">Developed by Fuller and colleagues, the ISR uses a small magnetized rod floating at the fluid interface. A controlled magnetic field gradient, often generated by Helmholtz coils, applies a known force or torque to the rod, inducing shear deformation in the interfacial layer. The rod's displacement or rotation is tracked optically (e.g., using a microscope and photodiode array) to determine the time-dependent strain in response to the applied stress. This allows calculation of \(G^*\).</p>
              <figure class="my-4">
                   <svg width="450" height="250" viewBox="0 0 250 150">
@@ -288,7 +300,7 @@
         </section>
 
         <section id="comparison-table" class="mb-12 p-6 rounded-lg shadow-lg bg-lime-50">
-            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">6. Summary Comparison of Shear Methods</h2>
+            <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">6. Summary Comparison of Shear Methods</h2>
              <div class="table-container">
                  <table>
                      <thead>
@@ -349,7 +361,7 @@
         </section>
 
          <section id="shear-data-app-final" class="mb-12 p-6 rounded-lg shadow-lg bg-white">
-             <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6">7. Conceptual Shear Data Interpretation</h2>
+             <h2 class="text-2xl font-bold text-lime-800 border-b-2 border-lime-200 pb-2 mb-6 dynamic-content">7. Conceptual Shear Data Interpretation</h2>
              <div class="interactive-block bg-lime-50">
                   <h4 class="text-lg font-semibold mb-3 text-center text-lime-700">Typical Oscillatory Shear Responses</h4>
                    <p class="text-xs text-center text-gray-500 mb-4">Select a conceptual material type to see how its storage (\(G'\), elastic) and loss (\(G''\), viscous) moduli might typically behave as a function of frequency (\(\omega\)) in a shear rheology experiment.</p>
